@@ -5,6 +5,6 @@ int main(void) {
     bool running = true;
 
     while (running) {
-        printf("simpsh> ");
+        printf("\nsimpsh> ");
     }
 }
