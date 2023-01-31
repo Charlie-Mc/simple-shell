@@ -24,7 +24,7 @@ bool parse() {
     // take first keyword off of input line, keywords are defined by words before the parsing characters (2nd input to fgets)
     char* token = strtok(input, " \t\n|><&;");
 
-    // if there are viable words, find what to do with them
+    // if token is null value ignore parsing
     while (token != NULL) {
         printf("%s\n", token);
 
