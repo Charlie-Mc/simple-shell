@@ -2,16 +2,18 @@
 #include <stdbool.h>
 #include <string.h>
 
+#define MAX_INPUT 512
+
 int main(void) {
     bool running = true;
-    char input[512];
+    char input[MAX_INPUT];
 
     while (running) {
         bool parsingLine = true;
 
         printf("simpsh> ");
 
-        char* inputPtr = fgets(input, 512, stdin);
+        char* inputPtr = fgets(input, MAX_INPUT, stdin);
         if (inputPtr == NULL) {
             running = parsingLine = false;
             printf("\n");
