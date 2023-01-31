@@ -8,7 +8,6 @@ bool parse() {
 
     // Define input buffer
     char input[MAX_INPUT];
-    bool parsingLine = true;
 
     // print user prompt
     printf("simpsh> ");
@@ -25,24 +24,17 @@ bool parse() {
     // take first keyword off of input line, keywords are defined by words before the parsing characters (2nd input to fgets)
     char* token = strtok(input, " \t\n|><&;");
 
-    // if keyword is null value, terminate parsing of line and return to top of parse() function
-    if (token == NULL)
-        parsingLine = false;
-
     // if there are viable words, find what to do with them
-    while (parsingLine) {
+    while (token != NULL) {
         printf("%s\n", token);
 
         // if the word is the exit command, terminate shell
         if (strcmp(token, "exit") == 0)
-            return parsingLine = false;
+            return false;
 
         // get next keyword
         token = strtok(NULL, " \t\n|><&;");
 
-        // if keyword is null value, terminate parsing of line and return to top of parse() function
-        if (token == NULL)
-            parsingLine = false;
     }
     return true;
 }
