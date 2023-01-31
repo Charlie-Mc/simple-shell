@@ -11,14 +11,16 @@ int main(void) {
 
         printf("simpsh> ");
 
-        // TODO: Rename penis before comitting
-        char* penis = fgets(input, 512, stdin);
-        if (penis == NULL) {
+        char* inputPtr = fgets(input, 512, stdin);
+        if (inputPtr == NULL) {
             running = parsingLine = false;
             printf("\n");
         }
 
         char* token = strtok(input, " \t\n|><&;");
+        if (token == NULL)
+            parsingLine = false;
+        
         
         while (parsingLine) {
             printf("%s\n", token);
