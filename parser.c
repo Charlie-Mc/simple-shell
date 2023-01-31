@@ -2,7 +2,7 @@
 // Created by connor on 31/01/23.
 //
 
-#include "parsing.h"
+#include "parser.h"
 
 bool parse() {
     char input[MAX_INPUT];
@@ -32,4 +32,3 @@ bool parse() {
     }
     return true;
 }
-
