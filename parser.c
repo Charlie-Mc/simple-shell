@@ -14,11 +14,8 @@ bool parse() {
     // Print user prompt
     printf("simpsh> ");
 
-    // Get user input and store it into a character pointer that then pushes into the input buffer declared on line 8
-    char* inputPtr = fgets(input, MAX_INPUT, stdin);
-
     // If input starts with a NULL value, quit terminal
-    if (inputPtr == NULL) {
+    if (fgets(input, MAX_INPUT, stdin) == NULL) {
         printf("\n");
         return false;
     }
