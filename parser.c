@@ -22,7 +22,7 @@ bool parse() {
     }
 
     // take first keyword off of input line, keywords are defined by words before the parsing characters (2nd input to fgets)
-    char* token = strtok(input, " \t\n|><&;");
+    char* token = strtok(input, DELIMITERS);
 
     // if token is null value ignore parsing
     while (token != NULL) {
@@ -33,7 +33,7 @@ bool parse() {
             return false;
 
         // get next keyword
-        token = strtok(NULL, " \t\n|><&;");
+        token = strtok(NULL, DELIMITERS);
 
     }
     return true;
