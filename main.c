@@ -23,9 +23,8 @@ int main(void) {
         if (token == NULL)
             parsingLine = false;
         
-        
         while (parsingLine) {
-            printf("%s\n", token);
+            printf("\"%s\"\n", token);
             if (strcmp(token, "exit") == 0) 
                 running = parsingLine = false;
             token = strtok(NULL, " \t\n|><&;");
