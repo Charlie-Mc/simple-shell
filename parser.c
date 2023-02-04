@@ -14,7 +14,7 @@ bool parse() {
     // Print user prompt
     printf("simpsh> ");
 
-    // If input starts with a NULL value, quit terminal
+    // If reading an input line fails, terminate shell
     if (fgets(input, MAX_INPUT, stdin) == NULL) {
         printf("\n");
         return false;
