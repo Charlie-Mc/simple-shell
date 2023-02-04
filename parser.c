@@ -12,7 +12,7 @@ bool parse() {
     char input[MAX_INPUT];
 
     // Print user prompt
-    printf("simpsh 8---->");
+    printf("simpsh> ");
 
     // Get user input and store it into a character pointer that then pushes into the input buffer declared on line 8
     char* inputPtr = fgets(input, MAX_INPUT, stdin);
