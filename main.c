@@ -4,7 +4,7 @@
 
 #include "parser.h"
 
-int main(void) {
+int main() {
     bool running = true;
 
     while (running) {

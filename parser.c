@@ -4,6 +4,8 @@
 
 #include "parser.h"
 
+// Parses a line of user input. 
+// Returns false if execution of the shell should terminate after this line, or true if execution should continue.
 bool parse() {
 
     // Define input buffer

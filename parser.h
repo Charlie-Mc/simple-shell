@@ -11,4 +11,4 @@
 #define MAX_INPUT 512
 #define DELIMITERS " \t\n|><&;"
 
-bool parse ();
+bool parse();
