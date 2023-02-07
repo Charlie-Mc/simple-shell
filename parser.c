@@ -5,7 +5,7 @@
 #include "parser.h"
 
 // Parses a line of user input. 
-// Returns false if execution of the shell should terminate after this line, or true if execution should continue.
+// Returns NULL if execution of the shell is to end after this line, otherwise an array of strings representing the tokens of the line read.
 char** parse(char* input) {
 
     // Print user prompt
