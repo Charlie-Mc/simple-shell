@@ -4,25 +4,23 @@
 
 #include "ExecuteCommand.h"
 
-int ExecuteCommand(char *argv[]) {
-    pid_t pid;
-    pid = fork();
+int ExecuteCommand(char* argv[]) {
+    pid_t pid = fork();
 
-//    Error occured
-    if(pid < 0){
-        fprintf(stderr, "Fork execute command failed");
+    // Error occured
+    if (pid < 0){
+        fprintf(stderr, "Fork execute command failed\n");
         return 1;
     }
-//    Child Process
-    else if( pid == 0) {
+    // Child Process
+    else if (pid == 0) {
         execvp(argv[0], argv);
-//        execvp(argv[0], argv);
     }
-        //Parent Process
+    // Parent Process
     else{
-//        Wait for child
+        // Wait for child
         wait(NULL);
-        printf("Child Process Complete");
+        printf("Child Process Complete\n");
     }
     return 0;
 }
