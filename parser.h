@@ -4,11 +4,12 @@
     These functions take the input from the user and then determine what functions to next call based on the input given
  */
 
-#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define MAX_INPUT 512
+#define MAX_TOKENS 50
 #define DELIMITERS " \t\n|><&;"
 
-bool parse();
+char** parse(char* input);
