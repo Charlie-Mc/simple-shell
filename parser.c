@@ -29,7 +29,7 @@ char** parse(char* input) {
     // If token is null value ignore parsing
     while (token != NULL) {
         printf("%s\n", token);
-        tokens[i] = token;
+        tokens[i++] = token;
 
         // If the token is the exit command, terminate shell
         if (strcmp(token, "exit") == 0) {
@@ -40,5 +40,6 @@ char** parse(char* input) {
         // Otherwise get next keyword and repeat
         token = strtok(NULL, DELIMITERS);
     }
+    tokens[i] = NULL;
     return tokens;
 }
