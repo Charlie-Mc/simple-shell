@@ -15,9 +15,11 @@ int ExecuteCommand(char* argv[]) {
     // Child Process
     else if (pid == 0) {
         execvp(argv[0], argv);
+        perror(argv[0]);
+        exit(1);
     }
     // Parent Process
-    else{
+    else {
         // Wait for child
         wait(NULL);
         printf("Child Process Complete\n");
