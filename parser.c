@@ -40,5 +40,6 @@ char** parse(char* input) {
         // Otherwise get next keyword and repeat
         token = strtok(NULL, DELIMITERS);
     }
+    tokens[i] = NULL;
     return tokens;
 }
