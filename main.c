@@ -1,10 +1,12 @@
 #include "parser.h"
+#include "ExecuteCommand.h"
 
 int main() {
     char input[MAX_INPUT];
-    char** tokens;
+    char** tokens = parse(input);
 
-    do {
+    while (tokens != NULL) {
+        ExecuteCommand(tokens);
         tokens = parse(input);
-    } while (tokens != NULL);
+    }
 }
