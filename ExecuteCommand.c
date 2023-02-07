@@ -7,12 +7,7 @@
 int ExecuteCommand(char *argv[]) {
     pid_t pid;
     pid = fork();
-    Char* pathFile;
 
-    if (&pathFile == NULL){
-        fprintf(stderr, "file path NULL");
-        return 1;
-    }
 //    Error occured
     if(pid < 0){
         fprintf(stderr, "Fork execute command failed");
