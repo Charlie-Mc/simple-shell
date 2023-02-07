@@ -10,6 +10,7 @@
 
 #define MAX_INPUT 512
 #define MAX_TOKENS 50
+#define HISTORY_SIZE 20
 #define DELIMITERS " \t\n|><&;"
 
 char** parse(char* input);
