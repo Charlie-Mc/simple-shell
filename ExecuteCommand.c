@@ -10,12 +10,14 @@ int ExecuteCommand(char* argv[]) {
     // Error occured
     if (pid < 0){
         fprintf(stderr, "Fork execute command failed\n");
+        free(argv);
         return 1;
     }
     // Child Process
     else if (pid == 0) {
         execvp(argv[0], argv);
         perror(argv[0]);
+        free(argv);
         exit(1);
     }
     // Parent Process
@@ -23,6 +25,7 @@ int ExecuteCommand(char* argv[]) {
         // Wait for child
         wait(NULL);
         printf("Child Process Complete\n");
+        free(argv);
     }
     return 0;
 }
