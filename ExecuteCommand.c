@@ -15,9 +15,10 @@ int ExecuteCommand(char *argv[]) {
     }
 //    Child Process
     else if( pid == 0) {
-        execv(pathFile, *argv[]);
+        execvp(argv[0], argv);
+//        execvp(argv[0], argv);
     }
-    //Parent Process
+        //Parent Process
     else{
 //        Wait for child
         wait(NULL);
