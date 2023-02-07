@@ -1,9 +1,10 @@
 #include "parser.h"
 
 int main() {
-    bool running = true;
+    char input[MAX_INPUT];
+    char** tokens;
 
-    while (running) {
-        running = parse();
-    }
+    do {
+        tokens = parse(input);
+    } while (tokens != NULL);
 }

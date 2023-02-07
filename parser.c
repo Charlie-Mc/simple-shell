@@ -6,10 +6,7 @@
 
 // Parses a line of user input. 
 // Returns false if execution of the shell should terminate after this line, or true if execution should continue.
-bool parse() {
-
-    // Define input buffer
-    char input[MAX_INPUT];
+char** parse(char* input) {
 
     // Print user prompt
     printf("simpsh> ");
@@ -17,8 +14,14 @@ bool parse() {
     // If reading an input line fails, terminate shell
     if (fgets(input, MAX_INPUT, stdin) == NULL) {
         printf("\n");
-        return false;
+        return NULL;
     }
+
+    // Create array of tokens
+    char** tokens = malloc(MAX_TOKENS * sizeof(char*));
+
+    // Index into array of tokens
+    int i = 0;
 
     // Take first keyword off of input line, keywords are defined by words before the parsing characters (2nd input to fgets)
     char* token = strtok(input, DELIMITERS);
@@ -26,14 +29,16 @@ bool parse() {
     // If token is null value ignore parsing
     while (token != NULL) {
         printf("%s\n", token);
+        tokens[i] = token;
 
         // If the token is the exit command, terminate shell
-        if (strcmp(token, "exit") == 0)
-            return false;
+        if (strcmp(token, "exit") == 0) {
+            free(tokens);
+            return NULL;
+        }
 
         // Otherwise get next keyword and repeat
         token = strtok(NULL, DELIMITERS);
-
     }
-    return true;
+    return tokens;
 }
