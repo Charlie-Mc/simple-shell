@@ -6,7 +6,7 @@
 #include "history.h"
 
 char* toStr(char** val) {
-    char* result;
+    char* result = malloc(sizeof(char*));
     while (*val != NULL) {
         result = strcat(result, *val);
         val++;
@@ -69,6 +69,9 @@ int checkHist(char** tokens, char** history) {
 }
 
 void printHistory(char** history) {
+    if (*history == NULL) {
+        *history = malloc(sizeof(char*));
+    }
     char* latestCall = *history;
     int i = 0;
     if (strcmp(*history, "") == 0) {
@@ -78,10 +81,8 @@ void printHistory(char** history) {
     while (strcmp(*history, "") != 0) {
         history++;
         i++;
+        if (*history == NULL) *history = malloc(sizeof(char*));
     }
-    history++;
-    *history = malloc(sizeof(char *));
-    history--;
     history--;
     while (i != 1) {
         printf("%d:  %s\n", i, *history);
