@@ -5,11 +5,11 @@
 int main() {
     char input[MAX_INPUT];
     char** tokens = parse(input);
-    char*  history[HISTORY_SIZE];
+    char** history = malloc(HISTORY_SIZE * sizeof(char*));
 
     while (tokens != NULL) {
-        execute(tokens);
-        tokens = parse(input);
         checkHist(tokens, history);
+        //execute(tokens);
+        tokens = parse(input);
     }
 }

@@ -21,6 +21,6 @@ void execute (char* argv[]) {
         exit(1);
     }
 
-    while(wait(&status) != pid);
+    wait(NULL);
     free(argv);
 }
