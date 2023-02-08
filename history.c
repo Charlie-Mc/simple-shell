@@ -58,13 +58,13 @@ int checkHist(char** tokens, char** history) {
         return 1;
     } else if (strcmp(tokens[0], "history") == 0) {
         printHistory(history);
-        push(history, tokens[0]);
+        push(history, tokens);
         return 1;
     } else if (strcmp(tokens[0], "ls") == 0) {
-        push(history, tokens[0]);
+        push(history, tokens);
         printf("ls Tried");
     }
-    push(history, tokens[0]);
+    push(history, tokens);
     return 0;
 }
 
