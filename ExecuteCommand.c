@@ -40,7 +40,7 @@ int setSystemPath(char *path){
 }
 
 
-//part 4 cd command by Charlie McMicheal
+//part 4
 // Changes the directory to the path given in the parameter
 int changeDirectoryParameter(char *argv[]) {
     if (argv[1] != NULL) {
@@ -66,8 +66,16 @@ int changeDirectory() {
     int RunPredefined(char *argv[]) {
         char *command = argv[0];
         if (strcmp(command, "getpath") == 0) {
+            if (argv[1] != NULL) {
+                printf("getpath: Too many parameters!\n");
+                return 0;
+            }
             getPath();
         } else if (strcmp(command, "setpath") == 0) {
+            if (argv[2] != NULL) {
+                printf("setpath: Too many parameters!\n");
+                return 0;
+            }
             if (argv[1] != NULL) {
                 setSystemPath(argv[1]);
             } else {
@@ -78,6 +86,10 @@ int changeDirectory() {
             //change directory
         } else if (strcmp(command, "cd") == 0) {
             //if no parameter is given, change to home directory
+            if (argv[2] != NULL) {
+                printf("cd: Too many parameters!\n");
+                return 0;
+            }
             if (argv[1] == NULL) {
                 changeDirectory();
                 return 0;
