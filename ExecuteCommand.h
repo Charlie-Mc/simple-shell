@@ -7,5 +7,12 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 
 void execute(char* argv[]);
+
+int RunPredefined(char* argv[]);
+
+void getPath();
+
+int setSystemPath(char *path);
