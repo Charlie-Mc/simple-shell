@@ -17,6 +17,7 @@ int cwdofsimp(char *cwd){
 }
 
 int main() {
+    //set path on start
     char *path = getenv("PATH");
     char input[MAX_INPUT];
     char cwd[MAX_CWD];

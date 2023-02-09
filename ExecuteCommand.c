@@ -39,28 +39,54 @@ int setSystemPath(char *path){
     printf("Path restored!");
 }
 
-int changeDirectory(){
 
+//part 4 cd command by Charlie McMicheal
+// Changes the directory to the path given in the parameter
+int changeDirectoryParameter(char *argv[]) {
+    if (argv[1] != NULL) {
+        if (chdir(argv[1]) != 0) {
+            perror("chdir() error()");
+            return 0;
+        } else {
+            printf("Directory changed to: %s\n", argv[1]);
+        }
+    }
 }
-
-//Runs all of the predefined functions
-//add another else if if you want to add a command
-int RunPredefined(char *argv[]){
-    char* command = argv[0];
-    if(strcmp(command, "getpath")==0){
-        getPath();
-    }else if(strcmp(command, "setpath")==0){
-        if(argv[1] != NULL){
-            setSystemPath(argv[1]);
-        }else{
-            printf("setpath: No path parameter!\n");
+// Changes the directory to the home directory
+int changeDirectory() {
+        char *path = getenv("HOME");
+        if (chdir(path) != 0) {
+            perror("chdir() error()");
             return 0;
         }
-
-    }else if(strcmp(command, "cd")==0){
-        changeDirectory();
-    }else{
-        execute(argv);
-    }
-    return 1;
 }
+
+    //Runs all of the predefined functions
+//add another else if if you want to add a command
+    int RunPredefined(char *argv[]) {
+        char *command = argv[0];
+        if (strcmp(command, "getpath") == 0) {
+            getPath();
+        } else if (strcmp(command, "setpath") == 0) {
+            if (argv[1] != NULL) {
+                setSystemPath(argv[1]);
+            } else {
+                printf("setpath: No path parameter!\n");
+                return 0;
+            }
+
+            //change directory
+        } else if (strcmp(command, "cd") == 0) {
+            //if no parameter is given, change to home directory
+            if (argv[1] == NULL) {
+                changeDirectory();
+                return 0;
+            }
+            // else change to the directory given in the parameter
+            changeDirectoryParameter(argv);
+        } else {
+            execute(argv);
+        }
+        return 1;
+    }
+
