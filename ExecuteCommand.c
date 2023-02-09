@@ -53,7 +53,7 @@ int RunPredefined(char *argv[]){
         if(argv[1] != NULL){
             setSystemPath(argv[1]);
         }else{
-            printf("setpath: No path parameter!");
+            printf("setpath: No path parameter!\n");
             return 0;
         }
 
