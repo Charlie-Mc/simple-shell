@@ -2,7 +2,7 @@
 // Created by Robbie Booth and Charlie McMicheal on 07/02/23.
 //
 
-#include "ExecuteCommand.h"
+#include "execute.h"
 
 int ExecuteCommand(char* argv[]) {
     pid_t pid = fork();
