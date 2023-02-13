@@ -61,44 +61,45 @@ int changeDirectory() {
         }
 }
 
-    //Runs all of the predefined functions
-//add another else if if you want to add a command
-    int RunPredefined(char *argv[]) {
-        char *command = argv[0];
-        if (strcmp(command, "getpath") == 0) {
-            if (argv[1] != NULL) {
-                printf("getpath: Too many parameters!\n");
-                return 0;
-            }
-            getPath();
-        } else if (strcmp(command, "setpath") == 0) {
-            if (argv[2] != NULL) {
-                printf("setpath: Too many parameters!\n");
-                return 0;
-            }
-            if (argv[1] != NULL) {
-                setSystemPath(argv[1]);
-            } else {
-                printf("setpath: No path parameter!\n");
-                return 0;
-            }
+//Runs all the predefined functions
+//add another else if is you want to add a command
 
-            //change directory
-        } else if (strcmp(command, "cd") == 0) {
-            //if no parameter is given, change to home directory
-            if (argv[2] != NULL) {
-                printf("cd: Too many parameters!\n");
-                return 0;
-            }
-            if (argv[1] == NULL) {
-                changeDirectory();
-                return 0;
-            }
-            // else change to the directory given in the parameter
-            changeDirectoryParameter(argv);
-        } else {
-            execute(argv);
+int runPredefined(char *argv[]) {
+    char *command = argv[0];
+    if (strcmp(command, "getpath") == 0) {
+        if (argv[1] != NULL) {
+            printf("getpath: Too many parameters!\n");
+            return 0;
         }
-        return 1;
+        getPath();
+    } else if (strcmp(command, "setpath") == 0) {
+        if (argv[2] != NULL) {
+            printf("setpath: Too many parameters!\n");
+            return 0;
+        }
+        if (argv[1] != NULL) {
+            setSystemPath(argv[1]);
+        } else {
+            printf("setpath: No path parameter!\n");
+            return 0;
+        }
+
+        //change directory
+    } else if (strcmp(command, "cd") == 0) {
+        //if no parameter is given, change to home directory
+        if (argv[2] != NULL) {
+            printf("cd: Too many parameters!\n");
+            return 0;
+        }
+        if (argv[1] == NULL) {
+            changeDirectory();
+            return 0;
+        }
+        // else change to the directory given in the parameter
+        changeDirectoryParameter(argv);
+    } else {
+        execute(argv);
     }
+    return 1;
+}
 

@@ -11,7 +11,7 @@
 
 void execute(char* argv[]);
 
-int RunPredefined(char* argv[]);
+int runPredefined(char* argv[]);
 
 void getPath();
 

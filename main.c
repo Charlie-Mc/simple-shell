@@ -25,7 +25,7 @@ int main() {
     char** tokens = parse(input);
 
     while (tokens != NULL) {
-        RunPredefined(tokens);
+        runPredefined(tokens);
         tokens = parse(input);
     }
 
