@@ -47,25 +47,28 @@ void revArr(char** src) {
     free(des);
 }
 
-int checkHist(char** tokens, char** history) {
+int checkHist(bool prevCalled, char** tokens, char** history) {
     if (strcmp(tokens[0], "!!") == 0) {
         if (strcmp(history[0], "") == 0) {
             printf("\nNo Command History Found!\n");
-            return 1;
+            return 2;
         } else {
             tokens[0] = *history;
         }
-        return 1;
+        return 0;
     } else if (strcmp(tokens[0], "history") == 0) {
         printHistory(history);
-        push(history, tokens);
-        return 1;
+        if (!prevCalled)
+            push(history, tokens);
+        return 2;
     } else if (strcmp(tokens[0], "ls") == 0) {
-        push(history, tokens);
-        printf("ls Tried");
+        if (!prevCalled)
+            push(history, tokens);
+        printf("ls Tried\n");
+        return 2;
     }
     push(history, tokens);
-    return 0;
+    return 1;
 }
 
 void printHistory(char** history) {

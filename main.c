@@ -7,10 +7,22 @@ int main() {
     char** tokens = parse(input);
     char** history = malloc(HISTORY_SIZE * sizeof(char*));
     *history = malloc(sizeof(char*));
+    int hist;
+    bool prevCalled;
 
     while (tokens != NULL) {
-        checkHist(tokens, history);
-        //execute(tokens);
-        tokens = parse(input);
+        // hist => 0 means !! or !n
+        hist = checkHist(prevCalled, tokens, history);
+        prevCalled = false;
+        if (hist == 0) prevCalled = true;
+        // hist => 1 means non history external command
+        if (hist == 1) {
+            execute(tokens);
+            tokens = parse(input);
+        }
+        // hist => 2 means history command not !! or !n
+        if (hist == 2) {
+            tokens = parse(input);
+        }
     }
 }
