@@ -2,15 +2,17 @@
 // Created by xbb21163 on 07/02/23.
 //
 
-#ifndef SIMPLE_SHELL_P2_EXECUTECOMMAND_H
-#define SIMPLE_SHELL_P2_EXECUTECOMMAND_H
-
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 
-int ExecuteCommand(char* argv[]);
+void execute(char* argv[]);
 
-#endif //SIMPLE_SHELL_P2_EXECUTECOMMAND_H
+int RunPredefined(char* argv[]);
+
+void getPath();
+
+int setSystemPath(char *path);
