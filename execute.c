@@ -36,7 +36,7 @@ void getPath(){
 
 int setSystemPath(char *path){
     setenv("PATH",path, 1);
-    printf("Path restored!");
+    printf("Path restored!\n");
 }
 
 
@@ -58,6 +58,8 @@ int changeDirectory() {
         if (chdir(path) != 0) {
             perror("chdir() error()");
             return 0;
+        }else{
+            printf("Directory changed to: %s\n", path);
         }
 }
 

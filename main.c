@@ -31,7 +31,7 @@ int main() {
 
     //debug mode as recommended by andrew, to remove this change DEBUG variable in parser.h to 0
     if(DEBUG){
-        printf("Old Path:");
+        printf("Old Path:\n");
         getPath();
     }
 
@@ -39,7 +39,7 @@ int main() {
     setSystemPath(path);
 
     if(DEBUG){
-        printf("Restored Path:");
+        printf("Restored Path:\n");
         getPath();
     }
 }
