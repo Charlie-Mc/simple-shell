@@ -12,13 +12,22 @@ char** parse(char* input) {
     printf("simpsh> ");
 
     // If reading an input line fails, terminate shell
-    if (fgets(input, MAX_INPUT, stdin) == NULL) {
+    if (fgets(input, MAX_INPUT + 2, stdin) == NULL) {
         printf("\n");
         return NULL;
     }
 
     // Create array of tokens
     char** tokens = malloc(MAX_TOKENS * sizeof(char*));
+
+    // Check if line is too long (>512 characters)
+    int lastCharIndex = strlen(input) - 1;
+    if (input[lastCharIndex] != '\n') {
+        fprintf(stderr, "Error: Maximum line length exceeded. Please ensure your command is less than 512 characters long.\n");
+        while (getchar() != '\n');
+        tokens[0] = NULL;
+        return tokens;
+    }
 
     // Index into array of tokens
     int i = 0;
