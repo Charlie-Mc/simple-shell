@@ -5,27 +5,30 @@
 
 #include "history.h"
 
-int checkHist(bool prevCalled, char** tokens, char** history) {
+//TODO: MAKE A push() FUNCTION
+
+int checkHist(bool prevCalled, char** tokens, char*** history) {
     if (strcmp(tokens[0], "!!") == 0) {
-        if (strcmp(history[0], "") == 0) {
+        if (strcmp(*history[0], "") == 0) {
             printf("\nNo Command History Found!\n");
             return 2;
         } else {
-            tokens[0] = *history;
+            free(tokens);
+            tokens = *history;
         }
         return 0;
     } else if (strcmp(tokens[0], "history") == 0) {
         printHistory(history);
-        if (!prevCalled)
-            push(history, tokens);
+        //if (!prevCalled)
+            //push(history, tokens);
         return 2;
     }
-    if (!prevCalled)
-        push(history, tokens);
+    //if (!prevCalled)
+        //push(history, tokens);
     return 1;
 }
 
-void printHistory(char** history) {
+void printHistory(char*** history) {
     if (*history == NULL) {
         *history = malloc(sizeof(char*));
     }

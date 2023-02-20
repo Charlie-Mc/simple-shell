@@ -20,5 +20,5 @@
 #endif
 
 
-int checkHist(bool prevCalled, char** argv, char** history);
-void printHistory(char** history);
+int checkHist(bool prevCalled, char** argv, char*** history);
+void printHistory(char*** history);

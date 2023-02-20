@@ -5,7 +5,7 @@
 int main() {
     char input[MAX_INPUT];
     char** tokens = parse(input);
-    char** history = malloc(HISTORY_SIZE * sizeof(char*));
+    char*** history = malloc(HISTORY_SIZE * sizeof(char**));
     *history = malloc(sizeof(char*));
     int hist;
     bool prevCalled;
