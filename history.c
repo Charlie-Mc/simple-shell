@@ -10,6 +10,7 @@ char* toStr(char** val) {
     char* result = malloc(sizeof(char*));
     while (*val != NULL) {
         result = strcat(result, *val);
+        result = strcat(result, " ");
         val++;
     }
     return result;
