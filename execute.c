@@ -45,7 +45,7 @@ int setSystemPath(char *path){
 int changeDirectoryParameter(char *argv[]) {
     if (argv[1] != NULL) {
         if (chdir(argv[1]) != 0) {
-            perror("chdir() error()");
+            perror(argv[1]);
             return 0;
         } else {
             printf("Directory changed to: %s\n", argv[1]);
@@ -56,7 +56,7 @@ int changeDirectoryParameter(char *argv[]) {
 int changeDirectory() {
         char *path = getenv("HOME");
         if (chdir(path) != 0) {
-            perror("chdir() error()");
+            perror(NULL);
             return 0;
         }else{
             printf("Directory changed to: %s\n", path);
@@ -68,6 +68,8 @@ int changeDirectory() {
 
 int runPredefined(char *argv[]) {
     char *command = argv[0];
+    if (argv[0] == NULL)
+        return 0;
     if (strcmp(command, "getpath") == 0) {
         if (argv[1] != NULL) {
             printf("getpath: Too many parameters!\n");
