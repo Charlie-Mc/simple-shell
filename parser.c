@@ -2,6 +2,10 @@
 // Created by connor on 31/01/23.
 //
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
 #include "parser.h"
 
 // Parses a line of user input. 
@@ -24,7 +28,7 @@ char** parse(char* input) {
     int lastCharIndex = strlen(input) - 1;
     if (input[lastCharIndex] != '\n') {
         fprintf(stderr, "Error: Maximum line length exceeded. Please ensure your command is less than 512 characters long.\n");
-        while (getchar() != '\n');
+        while (getchar() != '\n'); // Clears the input buffer
         tokens[0] = NULL;
         return tokens;
     }

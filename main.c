@@ -1,3 +1,10 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
 #include "parser.h"
 #include "execute.h"
 
@@ -6,14 +13,12 @@ int cwdofsimp(char *cwd){
     if (chdir(getenv("HOME")) != 0){
         perror("chdir() error()");
         return 0;
-    }else {
-        if (getcwd(cwd, MAX_CWD) == NULL){
-            perror("getcwd() error");
-            return 0;
-        }else
-            printf("current working directory is: %s\n", cwd);
-        return 1;
+    } else if (getcwd(cwd, MAX_CWD) == NULL){
+        perror("getcwd() error");
+        return 0;
     }
+    printf("current working directory is: %s\n", cwd);
+    return 1;
 }
 
 int main() {
