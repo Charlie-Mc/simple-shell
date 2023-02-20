@@ -5,30 +5,6 @@
 
 #include "history.h"
 
-char* toStr(char** val) {
-    char* result = malloc(sizeof(char*));
-    while (*val != NULL) {
-        result = strcat(result, *val);
-        val++;
-    }
-    return result;
-}
-
-void push(char** des, char** value) {
-    char *val = toStr(value);
-    char* temp  = *des;
-    char* temp2;
-    *des = val;
-    des++;
-    while (strcmp(temp, "") != 0) {
-        temp2 = *des;
-        *des = temp;
-        temp = temp2;
-        des++;
-    }
-}
-
-
 int checkHist(bool prevCalled, char** tokens, char** history) {
     if (strcmp(tokens[0], "!!") == 0) {
         if (strcmp(history[0], "") == 0) {
@@ -43,13 +19,9 @@ int checkHist(bool prevCalled, char** tokens, char** history) {
         if (!prevCalled)
             push(history, tokens);
         return 2;
-    } else if (strcmp(tokens[0], "ls") == 0) {
-        if (!prevCalled)
-            push(history, tokens);
-        printf("ls Tried\n");
-        return 2;
     }
-    push(history, tokens);
+    if (!prevCalled)
+        push(history, tokens);
     return 1;
 }
 
