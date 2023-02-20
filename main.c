@@ -4,9 +4,9 @@
 
 int main() {
     char input[MAX_INPUT];
+    get_input(input);
     char** tokens = parse(input);
-    char*** history = malloc(HISTORY_SIZE * sizeof(char**));
-    *history = malloc(sizeof(char*));
+    List history = new_list();
     int hist;
     bool prevCalled;
 
@@ -18,10 +18,12 @@ int main() {
         // hist => 1 means non history external command
         if (hist == 1) {
             execute(tokens);
+            get_input(input);
             tokens = parse(input);
         }
         // hist => 2 means history command not !! or !n
         if (hist == 2) {
+            get_input(input);
             tokens = parse(input);
         }
     }

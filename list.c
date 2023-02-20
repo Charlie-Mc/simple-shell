@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "list.h"
+#include "parser.h"
 
 // Creation/Deletion Functions
 
@@ -41,7 +41,7 @@ void clear(List list) {
     *list = NULL;
 }
 
-void push(List list, char* value) {
+void add(List list, char* value) {
 
     if (*list != NULL) {
         Node *node = *list;
@@ -96,7 +96,10 @@ char* peek(List list) {
     return value;
 }
 
-void add(List list, char* value) {
+void push(List list, char* value) {
+
+    if (size(list) == HISTORY_SIZE)
+        pop(list);
 
     if (*list != NULL) {
         // Has Item(s)
@@ -151,7 +154,7 @@ List sublist(List list, int start, int end) {
     if ((start > -1) & (end <= size(list)) & (start < end)) {
         sublist = new_list();
         for (int i = start; i < end; i++) {
-            push(sublist, get_at(list, i));
+            add(sublist, get_at(list, i));
         }
     }
     return sublist;
@@ -225,7 +228,7 @@ int insert_at(List list, int index, char* value) {
         add(list, value);
         successful = 1;
     } else if (index == size(list)) {
-        push(list, value);
+        add(list, value);
         successful = 1;
     } else if ((index > 0) & (index <= size(list)-1)) {
         Node* prevNode = *list;
@@ -299,7 +302,7 @@ List load_list(char* fileName) {
         char* string = malloc(strlen(buffer));
         buffer[strlen(buffer)-1] = '\0';
         strcpy(string, buffer);
-        push(list, string);
+        add(list, string);
     }
     fclose(file);
     return list;

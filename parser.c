@@ -8,15 +8,6 @@
 // Returns NULL if execution of the shell is to end after this line, otherwise an array of strings representing the tokens of the line read.
 char** parse(char* input) {
 
-    // Print user prompt
-    printf("simpsh> ");
-
-    // If reading an input line fails, terminate shell
-    if (fgets(input, MAX_INPUT, stdin) == NULL) {
-        printf("\n");
-        return NULL;
-    }
-
     // Create array of tokens
     char** tokens = malloc(MAX_TOKENS * sizeof(char*));
 
@@ -42,4 +33,14 @@ char** parse(char* input) {
     }
     tokens[i] = NULL;
     return tokens;
+}
+
+void get_input(char* input) {
+    // Print user prompt
+    printf("simpsh> ");
+
+    // If reading an input line fails, terminate shell
+    if (fgets(input, MAX_INPUT, stdin) == NULL) {
+        printf("\n");
+    }
 }

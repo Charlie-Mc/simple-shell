@@ -19,6 +19,11 @@
     #include <stdlib.h>
 #endif
 
+#ifndef list_h
+#define list_h
+    #include "list.h"
+#endif
 
-int checkHist(bool prevCalled, char** argv, char*** history);
-void printHistory(char*** history);
+
+int checkHist(bool prevCalled, char** argv, List history);
+void printHistory(List history);

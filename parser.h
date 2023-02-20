@@ -7,7 +7,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "history.h"
+#ifndef history_h
+#define history_h
+    #include "history.h"
+#endif
 
 #define MAX_INPUT 512
 #define MAX_TOKENS 50

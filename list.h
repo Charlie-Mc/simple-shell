@@ -1,7 +1,7 @@
 /* list.h */
 
 typedef struct NODE {
-    char *value;
+    char* value;
     struct NODE *next;
 } Node;
 
