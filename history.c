@@ -18,6 +18,10 @@ char* toStr(char** val) {
 
 int checkHist(bool prevCalled, char** tokens, List history) {
     if (strcmp(tokens[0], "!!") == 0) {
+        if (peek(history) == NULL) {
+            printf("\nNo Command History Found!\n");
+            return 2;
+        }
         if (strcmp(peek(history), "") == 0) {
             printf("\nNo Command History Found!\n");
             return 2;

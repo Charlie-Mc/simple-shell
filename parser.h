@@ -18,3 +18,4 @@
 #define DELIMITERS " \t\n|><&;"
 
 char** parse(char* input);
+void get_input(char* input);
