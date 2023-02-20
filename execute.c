@@ -41,7 +41,7 @@ void getPath() {
     printf("PATH : %s\n", getenv("PATH"));
 }
 
-int setSystemPath(char *path) {
+void setSystemPath(char *path) {
     setenv("PATH", path, 1);
     printf("Path restored!\n");
 }
@@ -56,7 +56,9 @@ int changeDirectoryParameter(char *argv[]) {
             return 0;
         }
         printf("Directory changed to: %s\n", argv[1]);
+        return 0;
     }
+    return 0;
 }
 // Changes the directory to the home directory
 int changeDirectory() {
@@ -66,6 +68,7 @@ int changeDirectory() {
             return 0;
         }
         printf("Directory changed to: %s\n", path);
+        return 0;
 }
 
 // Runs all the predefined functions

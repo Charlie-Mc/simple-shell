@@ -8,4 +8,4 @@ int runPredefined(char* argv[]);
 
 void getPath();
 
-int setSystemPath(char *path);
+void setSystemPath(char *path);
