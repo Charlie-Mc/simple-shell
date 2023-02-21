@@ -56,9 +56,9 @@ int checkHist(bool prevCalled, char** tokens, List history) {
         }
         return 0;
     } else if (strcmp(tokens[0], "history") == 0) {
-        printHistory(history);
         if (!prevCalled)
             push(history, toStr(tokens));
+        printHistory(history);
         return 2;
     }
     if (!prevCalled)

@@ -3,16 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parser.h"
+#include "list.h"
 
 // Creation/Deletion Functions
-
-List new_list() {
-
-    Node **list = malloc(sizeof(List));
-    *list = NULL;
-
-    return list;
-}
 
 Node* new_node(char* str) {
 
@@ -23,8 +16,60 @@ Node* new_node(char* str) {
     return newNode;
 }
 
-void delete_node(Node* node) {
+List new_list() {
 
+    Node **list = malloc(sizeof(List));
+    *list = NULL;
+
+    return list;
+}
+
+List load_list(char* fileName) {
+
+    FILE* file = fopen(fileName, "r");
+    List list = new_list();
+
+    if (file == 0) {
+        printf("File not found!");
+        return NULL;
+    }
+    char buffer[150];
+    while (fgets(buffer, 150, file)) {
+        char* string = malloc(strlen(buffer));
+        buffer[strlen(buffer)-1] = '\0';
+        strcpy(string, buffer);
+        add(list, string);
+    }
+    fclose(file);
+    return list;
+}
+
+List copy_list(List list) {
+
+    List newList = new_list();
+    Node* node = *list;
+
+    while (node != NULL) {
+        push(newList, node->value);
+        node = node->next;
+    }
+    return newList;
+}
+
+List sublist(List list, int start, int end) {
+
+    List sublist = NULL;
+
+    if ((start > -1) & (end <= size(list)) & (start < end)) {
+        sublist = new_list();
+        for (int i = start; i < end; i++) {
+            add(sublist, get_at(list, i));
+        }
+    }
+    return sublist;
+}
+
+void delete_node(Node* node) {
     free(node);
     node = NULL;
 }
@@ -41,6 +86,23 @@ void clear(List list) {
     *list = NULL;
 }
 
+void push(List list, char* value) {
+
+    if (size(list) == HISTORY_SIZE)
+        pop(list);
+
+    if (*list != NULL) {
+        // Has Item(s)
+        Node* newNode = new_node(value);
+        Node *node = *list;
+        newNode->next = node;
+        *list = newNode;
+    } else {
+        // Empty List
+        *list = new_node(value);
+    }
+}
+
 void add(List list, char* value) {
 
     if (*list != NULL) {
@@ -51,6 +113,28 @@ void add(List list, char* value) {
         node->next = new_node(value);
     } else {
         *list = new_node(value);
+    }
+}
+
+void print_list(List list) {
+
+    if (!is_empty(list)) {
+        if ((*list)->next == NULL) {
+            printf("[\"%s\"]\n", (*list)->value);
+        } else {
+            Node* node = *list;
+            printf("[");
+            while (node != NULL) {
+                printf("\"%s\"", node->value);
+                node = node->next;
+                if(node != NULL) {
+                    printf(", ");
+                }
+            }
+            printf("]\n");
+        }
+    } else {
+        printf("[]\n");
     }
 }
 
@@ -96,22 +180,6 @@ char* peek(List list) {
     return value;
 }
 
-void push(List list, char* value) {
-
-    if (size(list) == HISTORY_SIZE)
-        pop(list);
-
-    if (*list != NULL) {
-        // Has Item(s)
-        Node* newNode = new_node(value);
-        Node *node = *list;
-        newNode->next = node;
-        *list = newNode;
-    } else {
-        // Empty List
-        *list = new_node(value);
-    }
-}
 
 char* rem(List list) {
 
@@ -135,29 +203,20 @@ char* rem(List list) {
     return value;
 }
 
-List copy_list(List list) {
+char* get_at(List list, int index) {
 
-    List newList = new_list();
-    Node* node = *list;
+    char* value = NULL;
+    int currIndex = 0;
 
-    while (node != NULL) {
-        push(newList, node->value);
-        node = node->next;
-    }
-    return newList;
-}
-
-List sublist(List list, int start, int end) {
-
-    List sublist = NULL;
-
-    if ((start > -1) & (end <= size(list)) & (start < end)) {
-        sublist = new_list();
-        for (int i = start; i < end; i++) {
-            add(sublist, get_at(list, i));
+    if (size(list)-1 >= index) {
+        Node* node = *list;
+        while (currIndex != index) {
+            node = node->next;
+            currIndex++;
         }
+        value = node->value;
     }
-    return sublist;
+    return value;
 }
 
 int index_of(List list, char* value) {
@@ -183,22 +242,6 @@ int contains(List list, char* value) {
         return 0;
     }
     return 1;
-}
-
-char* get_at(List list, int index) {
-
-    char* value = NULL;
-    int currIndex = 0;
-
-    if (size(list)-1 >= index) {
-        Node* node = *list;
-        while (currIndex != index) {
-            node = node->next;
-            currIndex++;
-        }
-        value = node->value;
-    }
-    return value;
 }
 
 int replace_at(List list, int index, char* value) {
@@ -288,26 +331,6 @@ int save_list(List list, char* fileName) {
     return numElements;
 }
 
-List load_list(char* fileName) {
-
-    FILE* file = fopen(fileName, "r");
-    List list = new_list();
-
-    if (file == 0) {
-        printf("File not found!");
-        return NULL;
-    }
-    char buffer[150];
-    while (fgets(buffer, 150, file)) {
-        char* string = malloc(strlen(buffer));
-        buffer[strlen(buffer)-1] = '\0';
-        strcpy(string, buffer);
-        add(list, string);
-    }
-    fclose(file);
-    return list;
-}
-
 int is_empty(List list) {
 
     if (*list == NULL) {
@@ -330,24 +353,4 @@ int size(List list) {
     return listSize;
 }
 
-void print_list(List list) {
 
-    if (!is_empty(list)) {
-        if ((*list)->next == NULL) {
-            printf("[\"%s\"]\n", (*list)->value);
-        } else {
-            Node* node = *list;
-            printf("[");
-            while (node != NULL) {
-                printf("\"%s\"", node->value);
-                node = node->next;
-                if(node != NULL) {
-                    printf(", ");
-                }
-            }
-            printf("]\n");
-        }
-    } else {
-        printf("[]\n");
-    }
-}
