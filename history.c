@@ -2,7 +2,12 @@
 // Created by conno on 07/02/2023.
 //
 
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
 
+#include "list.h"
 #include "history.h"
 #include "parser.h"
 
@@ -16,7 +21,14 @@ char* toStr(char** val) {
     return result;
 }
 
-int checkHist(bool prevCalled, char** tokens, List history) {
+char* copyStr(char* src) {
+    int length = strlen(src);
+    char* newStr = malloc(length * sizeof(char));
+    return strcpy(newStr, src);
+}
+
+int checkHist(bool prevCalled, char*** tokensPtr, List history) {
+    char** tokens = *tokensPtr;
     if (strcmp(tokens[0], "!!") == 0) {
         if (peek(history) == NULL) {
             printf("\nNo Command History Found!\n");
@@ -26,11 +38,11 @@ int checkHist(bool prevCalled, char** tokens, List history) {
             printf("\nNo Command History Found!\n");
             return 2;
         } else {
-            free(tokens);
-            tokens = parse(get_at(history, 0));
+            free(*tokensPtr);
+            *tokensPtr = parse(copyStr(get_at(history, 0)));
         }
         return 0;
-    } else if (*tokens[0] == '!'){
+    } else if (*tokens[0] == '!') {
         // get input value from input token
         int val = tokens[0][1] - 48;
         if (tokens[0][2] != '\0')
@@ -51,18 +63,18 @@ int checkHist(bool prevCalled, char** tokens, List history) {
         }
         // parse command at location given
         else {
-            free(tokens);
-            tokens = parse(get_at(history, val-1));
+            free(*tokensPtr);
+            *tokensPtr = parse(copyStr(get_at(history, val-1)));
         }
         return 0;
     } else if (strcmp(tokens[0], "history") == 0) {
         if (!prevCalled)
-            push(history, toStr(tokens));
+            push(history, toStr(*tokensPtr));
         printHistory(history);
         return 2;
     }
     if (!prevCalled)
-        push(history, toStr(tokens));
+        push(history, toStr(*tokensPtr));
     return 1;
 }
 

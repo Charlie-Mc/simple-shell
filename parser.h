@@ -10,8 +10,9 @@
 #define HISTORY_SIZE 20
 
 //debug mode as recommended by andrew, to remove this change DEBUG variable in parser.h to 0
-#define DEBUG 0
+#define DEBUG 1
 #define DELIMITERS " \t\n|><&;"
 
 char** parse(char* input);
-void get_input(char* input);
+int get_input(char* input);
+char** readAndParseInput(char* input);
