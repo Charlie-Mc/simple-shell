@@ -74,6 +74,6 @@ int checkHist(bool prevCalled, char*** tokensPtr, List history) {
 }
 
 void printHistory(List history) {
-    for (int i = size(history); i > 0; --i)
-        printf("%d:  %s", i, get_at(history, i-1));
+    for (int i = 0; i < size(history); i++)
+        printf("%d:  %s", i+1, get_at(history, size(history) - (i + 1)));
 }
