@@ -2,13 +2,17 @@
 // Created by conno on 07/02/2023.
 //
 
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
 #include <math.h>
 
-#include "history.h"
 #include "parser.h"
+#include "history.h"
 
 char* toStr(char** val) {
-    char* result = malloc(sizeof(char*));
+    char* result = malloc(MAX_INPUT + 2);
     while (*val != NULL) {
         result = strcat(result, *val);
         result = strcat(result, " ");
@@ -51,17 +55,25 @@ int eval(char** tokens) {
 }
 
 int checkHist(bool prevCalled, char** tokens, List history) {
+char* copyStr(char* src) {
+    int length = strlen(src);
+    char* newStr = malloc((length+1) * sizeof(char));
+    return strcpy(newStr, src);
+}
+
+int checkHist(bool prevCalled, char*** tokensPtr, List history) {
+    char** tokens = *tokensPtr;
     if (strcmp(tokens[0], "!!") == 0) {
         if (peek(history) == NULL) {
-            printf("\nNo Command History Found!\n");
+            printf("No Command History Found!\n");
             return 2;
         }
         if (strcmp(peek(history), "") == 0) {
-            printf("\nNo Command History Found!\n");
+            printf("No Command History Found!\n");
             return 2;
         } else {
-            free(tokens);
-            tokens = parse(get_at(history, 0));
+            free(*tokensPtr);
+            *tokensPtr = parse(copyStr(get_at(history, 0)));
         }
         return 0;
     } else if (*tokens[0] == '!') {
@@ -69,16 +81,16 @@ int checkHist(bool prevCalled, char** tokens, List history) {
 
         // check for valid commands at location given
         if (size(history) < abs(val)) {
-            printf("\nNo Command History Found At Location Given\n");
+            printf("No Command History Found At Location Given\n");
             return 2;
         }
         // parse command at location given
         else {
-            free(tokens);
+            free(*tokensPtr);
             if (val < 0)
-                tokens = parse(get_at(history, abs(val)-1));
+                *tokensPtr = parse(get_at(history, abs(val)-1));
             else if (val > 0)
-                tokens = parse(get_at(history, size(history) - val));
+                *tokensPtr = parse(get_at(history, size(history) - val));
             else
                 return 2;
         }

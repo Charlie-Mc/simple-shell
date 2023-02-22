@@ -2,15 +2,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "parser.h"
-#include "list.h"
 
 // Creation/Deletion Functions
 
 Node* new_node(char* str) {
 
     Node* newNode = malloc(sizeof(Node));
-    newNode->value = str;
+    char* newStr = malloc((strlen(str)) + 1);
+    newNode->value = strcpy(newStr, str);
     newNode->next = NULL;
 
     return newNode;
@@ -94,7 +95,7 @@ void push(List list, char* value) {
     if (*list != NULL) {
         // Has Item(s)
         Node* newNode = new_node(value);
-        Node *node = *list;
+        Node* node = *list;
         newNode->next = node;
         *list = newNode;
     } else {
