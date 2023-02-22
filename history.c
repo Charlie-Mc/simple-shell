@@ -7,12 +7,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "list.h"
-#include "history.h"
 #include "parser.h"
+#include "history.h"
 
 char* toStr(char** val) {
-    char* result = malloc(sizeof(char*));
+    char* result = malloc(MAX_INPUT + 2);
     while (*val != NULL) {
         result = strcat(result, *val);
         result = strcat(result, " ");
@@ -23,7 +22,7 @@ char* toStr(char** val) {
 
 char* copyStr(char* src) {
     int length = strlen(src);
-    char* newStr = malloc(length * sizeof(char));
+    char* newStr = malloc((length+1) * sizeof(char));
     return strcpy(newStr, src);
 }
 
@@ -68,17 +67,13 @@ int checkHist(bool prevCalled, char*** tokensPtr, List history) {
         }
         return 0;
     } else if (strcmp(tokens[0], "history") == 0) {
-        if (!prevCalled)
-            push(history, toStr(*tokensPtr));
         printHistory(history);
         return 2;
     }
-    if (!prevCalled)
-        push(history, toStr(*tokensPtr));
     return 1;
 }
 
 void printHistory(List history) {
     for (int i = size(history); i > 0; --i)
-        printf("%d:  %s\n", i, get_at(history, i-1));
+        printf("%d:  %s", i, get_at(history, i-1));
 }

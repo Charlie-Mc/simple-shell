@@ -6,7 +6,6 @@
 #include <unistd.h>
 #include <stdbool.h>
 
-#include "list.h"
 #include "parser.h"
 #include "history.h"
 #include "execute.h"
@@ -30,10 +29,10 @@ int main() {
     char input[MAX_INPUT + 2];
     char cwd[MAX_CWD];
     cwdofsimp(cwd);
-
-    char** tokens = readAndParseInput(input);
-
     List history = new_list();
+
+    char** tokens = readAndParseInput(input, history);
+
     int hist;
     bool prevCalled;
 
@@ -47,16 +46,16 @@ int main() {
             // hist => 1 means non history external command
             else if (hist == 1) {
                 runPredefined(tokens);
-                tokens = readAndParseInput(input);
+                tokens = readAndParseInput(input, history);
             }
             // hist => 2 means history command not !! or !n
             else if (hist == 2) {
                 free(tokens);
-                tokens = readAndParseInput(input);
+                tokens = readAndParseInput(input, history);
             }
         } else {
             free(tokens);
-            tokens = readAndParseInput(input);
+            tokens = readAndParseInput(input, history);
         }
     }
 

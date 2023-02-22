@@ -4,6 +4,8 @@
     These functions take the input from the user and then determine what functions to next call based on the input given
  */
 
+#include "list.h"
+
 #define MAX_INPUT 512
 #define MAX_TOKENS 50
 #define MAX_CWD 256
@@ -14,5 +16,5 @@
 #define DELIMITERS " \t\n|><&;"
 
 char** parse(char* input);
-int get_input(char* input);
-char** readAndParseInput(char* input);
+int get_input(char* input, List history);
+char** readAndParseInput(char* input, List history);
