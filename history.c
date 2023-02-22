@@ -54,7 +54,6 @@ int eval(char** tokens) {
     return val;
 }
 
-int checkHist(bool prevCalled, char** tokens, List history) {
 char* copyStr(char* src) {
     int length = strlen(src);
     char* newStr = malloc((length+1) * sizeof(char));
@@ -88,28 +87,24 @@ int checkHist(bool prevCalled, char*** tokensPtr, List history) {
         else {
             free(*tokensPtr);
             if (val < 0)
-                *tokensPtr = parse(get_at(history, abs(val)-1));
+                *tokensPtr = parse(strdup(get_at(history, abs(val)-1)));
             else if (val > 0)
-                *tokensPtr = parse(get_at(history, size(history) - val));
+                *tokensPtr = parse(strdup(get_at(history, size(history) - val)));
             else
                 return 2;
         }
         return 0;
     } else if (strcmp(tokens[0], "history") == 0) {
-        if (!prevCalled)
-            push(history, toStr(tokens));
         printHistory(history);
         return 2;
     }
-    if (!prevCalled)
-        push(history, toStr(tokens));
     return 1;
 }
 
 void printHistory(List history) {
     int j = 1;
     for (int i = size(history); i > 0; --i) {
-        printf("%d:  %s\n", j, get_at(history, i - 1));
+        printf("%d:  %s", j, get_at(history, i - 1));
         j++;
     }
 }
