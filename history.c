@@ -2,6 +2,7 @@
 // Created by conno on 07/02/2023.
 //
 
+#include <math.h>
 
 #include "history.h"
 #include "parser.h"
@@ -14,6 +15,39 @@ char* toStr(char** val) {
         val++;
     }
     return result;
+}
+
+int eval(char** tokens) {
+    int val;
+    // get input value from input token
+    if (tokens[0][1] == '-') {
+        val = tokens[0][2] - 48;
+        if (tokens[0][3] != '\0')
+            val = (val * 10) + (tokens[0][3] - 48);
+
+        if (tokens[0][4] != '\0') {
+            printf("\nLocation Invalid!\n");
+            return 0;
+        }
+        if (val == 0 || val < -20) {
+            printf("\nLocation Invalid!\n");
+            return 0;
+        }
+        return -val;
+    }
+    val = tokens[0][1] - 48;
+    if (tokens[0][2] != '\0')
+        val = (val * 10) + (tokens[0][2] - 48);
+
+    if (tokens[0][3] != '\0') {
+        printf("\nLocation Invalid!\n");
+        return 0;
+    }
+    if (val == 0 || val > 20) {
+        printf("\nLocation Invalid!\n");
+        return 0;
+    }
+    return val;
 }
 
 int checkHist(bool prevCalled, char** tokens, List history) {
@@ -30,29 +64,23 @@ int checkHist(bool prevCalled, char** tokens, List history) {
             tokens = parse(get_at(history, 0));
         }
         return 0;
-    } else if (*tokens[0] == '!'){
-        // get input value from input token
-        int val = tokens[0][1] - 48;
-        if (tokens[0][2] != '\0')
-            val = (val * 10) + (tokens[0][2] - 48);
-        if (tokens[0][3] != '\0') {
-            printf("\nLocation Invalid!\n");
-            return 2;
-        }
-        if (val < 1 || val > 20) {
-            printf("\nLocation Invalid!\n");
-            return 2;
-        }
+    } else if (*tokens[0] == '!') {
+        int val = eval(tokens);
 
         // check for valid commands at location given
-        if (size(history) < val) {
+        if (size(history) < abs(val)) {
             printf("\nNo Command History Found At Location Given\n");
             return 2;
         }
         // parse command at location given
         else {
             free(tokens);
-            tokens = parse(get_at(history, val-1));
+            if (val < 0)
+                tokens = parse(get_at(history, abs(val)-1));
+            else if (val > 0)
+                tokens = parse(get_at(history, size(history) - val));
+            else
+                return 2;
         }
         return 0;
     } else if (strcmp(tokens[0], "history") == 0) {
@@ -67,6 +95,9 @@ int checkHist(bool prevCalled, char** tokens, List history) {
 }
 
 void printHistory(List history) {
-    for (int i = size(history); i > 0; --i)
-        printf("%d:  %s\n", i, get_at(history, i-1));
+    int j = 1;
+    for (int i = size(history); i > 0; --i) {
+        printf("%d:  %s\n", j, get_at(history, i - 1));
+        j++;
+    }
 }
