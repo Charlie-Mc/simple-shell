@@ -95,15 +95,15 @@ int checkHist(bool prevCalled, char*** tokensPtr, List history) {
         }
         return 0;
     } else if (strcmp(tokens[0], "history") == 0) {
-        printHistory(history);
+        printHistory(history, prevCalled);
         return 2;
     }
     return 1;
 }
 
-void printHistory(List history) {
+void printHistory(List history, bool prevCalled) {
     int j = 1;
-    for (int i = size(history); i > 0; --i) {
+    for (int i = size(history); i > (prevCalled ? 0 : 1); --i) {
         printf("%d:  %s", j, get_at(history, i - 1));
         j++;
     }

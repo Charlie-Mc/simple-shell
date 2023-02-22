@@ -3,4 +3,4 @@
 //
 
 int checkHist(bool prevCalled, char*** tokensPtr, List history);
-void printHistory(List history);
+void printHistory(List history, bool prevCalled);
