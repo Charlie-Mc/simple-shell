@@ -25,7 +25,8 @@ int eval(char** tokens) {
     int val;
     // get input value from input token
     if (tokens[0][1] == '-') {
-        val = tokens[0][2] - 48;
+        if (tokens[0][2] != '\0')
+            val = tokens[0][2] - 48;
         if (tokens[0][3] != '\0')
             val = (val * 10) + (tokens[0][3] - 48);
 
@@ -39,7 +40,8 @@ int eval(char** tokens) {
         }
         return -val;
     }
-    val = tokens[0][1] - 48;
+    if (tokens[0][1] != '\0')
+        val = tokens[0][1] - 48;
     if (tokens[0][2] != '\0')
         val = (val * 10) + (tokens[0][2] - 48);
 
