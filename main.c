@@ -62,6 +62,7 @@ int main() {
         }
     }
 
+    // Save history in user's home directory
     chdir(getenv("HOME"));
     save_list(history, ".hist_list");
     clear(history);
