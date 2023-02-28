@@ -2,6 +2,13 @@
 // Created by Robbie Booth and Charlie McMicheal on 07/02/23.
 //
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
 #include "execute.h"
 
 void execute (char* argv[]) {
@@ -30,12 +37,12 @@ void execute (char* argv[]) {
 /* Path and working directory are different things.
  * Path is the global like system directory of the shell
  * and directory is the area that it is located in*/
-void getPath(){
+void getPath() {
     printf("PATH : %s\n", getenv("PATH"));
 }
 
-int setSystemPath(char *path){
-    setenv("PATH",path, 1);
+void setSystemPath(char *path) {
+    setenv("PATH", path, 1);
     printf("Path restored!\n");
 }
 
@@ -47,10 +54,11 @@ int changeDirectoryParameter(char *argv[]) {
         if (chdir(argv[1]) != 0) {
             perror(argv[1]);
             return 0;
-        } else {
-            printf("Directory changed to: %s\n", argv[1]);
         }
+        printf("Directory changed to: %s\n", argv[1]);
+        return 0;
     }
+    return 0;
 }
 // Changes the directory to the home directory
 int changeDirectory() {
@@ -58,13 +66,13 @@ int changeDirectory() {
         if (chdir(path) != 0) {
             perror(NULL);
             return 0;
-        }else{
-            printf("Directory changed to: %s\n", path);
         }
+        printf("Directory changed to: %s\n", path);
+        return 0;
 }
 
-//Runs all the predefined functions
-//add another else if is you want to add a command
+// Runs all the predefined functions
+// Add another else if if you want to add a command
 
 int runPredefined(char *argv[]) {
     char *command = argv[0];
