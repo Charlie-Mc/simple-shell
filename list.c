@@ -30,15 +30,12 @@ List load_list(char* fileName) {
     List list = new_list();
 
     if (file == 0) {
-        printf("File not found!");
+        printf("History file not found\n");
         return NULL;
     }
-    char buffer[150];
-    while (fgets(buffer, 150, file)) {
-        char* string = malloc(strlen(buffer));
-        buffer[strlen(buffer)-1] = '\0';
-        strcpy(string, buffer);
-        add(list, string);
+    char buffer[MAX_INPUT + 2];
+    while (fgets(buffer, MAX_INPUT + 2, file)) {
+        add(list, strdup(buffer));
     }
     fclose(file);
     return list;
@@ -318,12 +315,12 @@ int save_list(List list, char* fileName) {
     Node* node = *list;
 
     if (file == 0) {
-        printf("File not found!");
+        printf("History file not found\n");
         return -1;
     }
     int numElements = 0;
     while (node != NULL) {
-        fprintf(file, "%s\n", node->value);
+        fprintf(file, "%s", node->value);
         node = node->next;
         numElements++;
     }

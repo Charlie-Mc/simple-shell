@@ -62,6 +62,7 @@ int main() {
         }
     }
 
+    chdir(getenv("HOME"));
     save_list(history, ".hist_list");
     clear(history);
     free(history);
@@ -79,8 +80,6 @@ int main() {
         printf("Restored Path:\n");
         getPath();
     }
-
-
 
     return 0;
 }
