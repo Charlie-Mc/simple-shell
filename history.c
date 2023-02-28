@@ -35,9 +35,10 @@ int checkHist(bool prevCalled, char*** tokensPtr, List history) {
             return 2;
         }
         errno = 0;
-        long lVal = strtol(&tokens[0][1], NULL, 10);
+        char* firstNonNumber;
+        long lVal = strtol(&tokens[0][1], &firstNonNumber, 10);
         int val;
-        if (errno != 0) {
+        if (errno != 0 || firstNonNumber == &tokens[0][1]) {
             printf("%s: invalid history position\n", tokens[0]);
             return 2;
         } else if (lVal < -20 || lVal > 20) {
