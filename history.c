@@ -14,6 +14,10 @@
 int checkHist(bool prevCalled, char*** tokensPtr, List history) {
     char** tokens = *tokensPtr;
     if (strcmp(tokens[0], "!!") == 0) {
+        if (tokens[1] != NULL) {
+            printf("!!: too many parameters\n");
+            return 2;
+        }
         if (peek(history) == NULL) {
             printf("No command history found!\n");
             return 2;
@@ -21,20 +25,25 @@ int checkHist(bool prevCalled, char*** tokensPtr, List history) {
         if (strcmp(peek(history), "") == 0) {
             printf("No command history found!\n");
             return 2;
-        } else {
-            free(*tokensPtr);
-            *tokensPtr = parse(strdup(get_at(history, 0)));
         }
+        free(*tokensPtr);
+        *tokensPtr = parse(strdup(get_at(history, 0)));
         return 0;
     } else if (*tokens[0] == '!') {
+        if (tokens[1] != NULL) {
+            printf("%s: too many parameters\n", tokens[0]);
+            return 2;
+        }
         errno = 0;
         long lVal = strtol(&tokens[0][1], NULL, 10);
         int val;
-        if (errno != 0)
+        if (errno != 0) {
+            printf("%s: invalid history position\n", tokens[0]);
             return 2;
-        else if (lVal < -20 || lVal > 20)
+        } else if (lVal < -20 || lVal > 20) {
+            printf("%s: history position out of bounds (-20 - 20)\n", tokens[0]);
             return 2;
-        else
+        } else
             val = (int) lVal;
 
         // check for valid commands at location given
@@ -55,7 +64,12 @@ int checkHist(bool prevCalled, char*** tokensPtr, List history) {
         }
         return 0;
     } else if (strcmp(tokens[0], "history") == 0) {
-        printHistory(history, true);
+        if (tokens[1] != NULL)
+            printf("history: too many parameters\n");
+        else if (size(history) == 1)
+            printf("history: no history exists\n");
+        else
+            printHistory(history, true);
         return 2;
     }
     return 1;
