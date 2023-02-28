@@ -6,54 +6,20 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 #include "parser.h"
 #include "history.h"
-
-int eval(char** tokens) {
-    int val;
-    // get input value from input token
-    if (tokens[0][1] == '-') {
-        if (tokens[0][2] != '\0')
-            val = tokens[0][2] - 48;
-        if (tokens[0][3] != '\0')
-            val = (val * 10) + (tokens[0][3] - 48);
-
-        if (tokens[0][4] != '\0') {
-            printf("Location Invalid!\n");
-            return 0;
-        }
-        if (val == 0 || val < -20) {
-            printf("Location Invalid!\n");
-            return 0;
-        }
-        return -val;
-    }
-    if (tokens[0][1] != '\0')
-        val = tokens[0][1] - 48;
-    if (tokens[0][2] != '\0')
-        val = (val * 10) + (tokens[0][2] - 48);
-
-    if (tokens[0][3] != '\0') {
-        printf("Location Invalid!\n");
-        return 0;
-    }
-    if (val == 0 || val > 20) {
-        printf("Location Invalid!\n");
-        return 0;
-    }
-    return val;
-}
 
 int checkHist(bool prevCalled, char*** tokensPtr, List history) {
     char** tokens = *tokensPtr;
     if (strcmp(tokens[0], "!!") == 0) {
         if (peek(history) == NULL) {
-            printf("No Command History Found!\n");
+            printf("No command history found!\n");
             return 2;
         }
         if (strcmp(peek(history), "") == 0) {
-            printf("No Command History Found!\n");
+            printf("No command history found!\n");
             return 2;
         } else {
             free(*tokensPtr);
@@ -61,21 +27,30 @@ int checkHist(bool prevCalled, char*** tokensPtr, List history) {
         }
         return 0;
     } else if (*tokens[0] == '!') {
-        int val = eval(tokens);
+        errno = 0;
+        long lVal = strtol(&tokens[0][1], NULL, 10);
+        int val;
+        if (errno != 0)
+            return 2;
+        else if (lVal < -20 || lVal > 20)
+            return 2;
+        else
+            val = (int) lVal;
 
         // check for valid commands at location given
         if (size(history) < abs(val)) {
-            printf("No Command History Found At Location Given\n");
+            printf("No command history found at location given\n");
             return 2;
         }
         // parse command at location given
         else {
-            free(*tokensPtr);
-            if (val < 0)
+            if (val < 0) {
+                free(*tokensPtr);
                 *tokensPtr = parse(strdup(get_at(history, abs(val)-1)));
-            else if (val > 0)
+            } else if (val > 0) {
+                free(*tokensPtr);
                 *tokensPtr = parse(strdup(get_at(history, size(history) - val)));
-            else
+            } else
                 return 2;
         }
         return 0;
@@ -89,7 +64,7 @@ int checkHist(bool prevCalled, char*** tokensPtr, List history) {
 void printHistory(List history, bool prevCalled) {
     int j = 1;
     for (int i = size(history); i > (prevCalled ? 0 : 1); --i) {
-        printf("%d:  %s", j, get_at(history, i - 1));
+        printf("%d:\t%s", j, get_at(history, i - 1));
         j++;
     }
 }
