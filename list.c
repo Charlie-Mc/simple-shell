@@ -10,8 +10,7 @@
 Node* new_node(char* str) {
 
     Node* newNode = malloc(sizeof(Node));
-    char* newStr = malloc((strlen(str)) + 1);
-    newNode->value = strcpy(newStr, str);
+    newNode->value = strcpy(strdup(str), str);
     newNode->next = NULL;
 
     return newNode;
