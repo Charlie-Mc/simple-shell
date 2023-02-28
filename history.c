@@ -80,7 +80,7 @@ int checkHist(bool prevCalled, char*** tokensPtr, List history) {
         }
         return 0;
     } else if (strcmp(tokens[0], "history") == 0) {
-        printHistory(history, prevCalled);
+        printHistory(history, true);
         return 2;
     }
     return 1;
