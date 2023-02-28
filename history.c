@@ -10,16 +10,6 @@
 #include "parser.h"
 #include "history.h"
 
-char* toStr(char** val) {
-    char* result = malloc(MAX_INPUT + 2);
-    while (*val != NULL) {
-        result = strcat(result, *val);
-        result = strcat(result, " ");
-        val++;
-    }
-    return result;
-}
-
 int eval(char** tokens) {
     int val;
     // get input value from input token
