@@ -25,11 +25,14 @@ int cwdofsimp(char *cwd){
 
 int main() {
     //set path on start
-    char* path = getenv("PATH");
-    char input[MAX_INPUT + 2];
     char cwd[MAX_CWD];
     cwdofsimp(cwd);
-    List history = new_list();
+    char* path = getenv("PATH");
+    List history = load_list(".hist_list");
+    if (history == NULL)
+        history = new_list();
+    char input[MAX_INPUT + 2];
+
 
     char** tokens = readAndParseInput(input, history);
 
@@ -59,6 +62,10 @@ int main() {
         }
     }
 
+    save_list(history, ".hist_list");
+    clear(history);
+    free(history);
+
     //debug mode as recommended by andrew, to remove this change DEBUG variable in parser.h to 0
     if (DEBUG) {
         printf("Old Path:\n");
@@ -72,6 +79,8 @@ int main() {
         printf("Restored Path:\n");
         getPath();
     }
+
+
 
     return 0;
 }
