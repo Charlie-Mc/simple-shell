@@ -29,7 +29,7 @@ int checkHist(bool prevCalled, char*** tokensPtr, List history) {
         free(*tokensPtr);
         *tokensPtr = parse(strdup(get_at(history, 0)));
         return 0;
-    } else if (*tokens[0] == '!') {
+    } else if (tokens[0][0] == '!' && tokens[0][1] != '\0') {
         if (tokens[1] != NULL) {
             printf("%s: too many parameters\n", tokens[0]);
             return 2;
