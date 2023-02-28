@@ -20,11 +20,11 @@ int eval(char** tokens) {
             val = (val * 10) + (tokens[0][3] - 48);
 
         if (tokens[0][4] != '\0') {
-            printf("\nLocation Invalid!\n");
+            printf("Location Invalid!\n");
             return 0;
         }
         if (val == 0 || val < -20) {
-            printf("\nLocation Invalid!\n");
+            printf("Location Invalid!\n");
             return 0;
         }
         return -val;
@@ -35,11 +35,11 @@ int eval(char** tokens) {
         val = (val * 10) + (tokens[0][2] - 48);
 
     if (tokens[0][3] != '\0') {
-        printf("\nLocation Invalid!\n");
+        printf("Location Invalid!\n");
         return 0;
     }
     if (val == 0 || val > 20) {
-        printf("\nLocation Invalid!\n");
+        printf("Location Invalid!\n");
         return 0;
     }
     return val;
