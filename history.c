@@ -6,7 +6,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
 
 #include "parser.h"
 #include "history.h"
@@ -56,12 +55,6 @@ int eval(char** tokens) {
     return val;
 }
 
-char* copyStr(char* src) {
-    int length = strlen(src);
-    char* newStr = malloc((length+1) * sizeof(char));
-    return strcpy(newStr, src);
-}
-
 int checkHist(bool prevCalled, char*** tokensPtr, List history) {
     char** tokens = *tokensPtr;
     if (strcmp(tokens[0], "!!") == 0) {
@@ -74,7 +67,7 @@ int checkHist(bool prevCalled, char*** tokensPtr, List history) {
             return 2;
         } else {
             free(*tokensPtr);
-            *tokensPtr = parse(copyStr(get_at(history, 0)));
+            *tokensPtr = parse(strdup(get_at(history, 0)));
         }
         return 0;
     } else if (*tokens[0] == '!') {
