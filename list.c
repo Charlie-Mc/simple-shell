@@ -36,7 +36,11 @@ List load_list(char* fileName) {
     char buffer[MAX_INPUT + 2];
     while (fgets(buffer, MAX_INPUT + 2, file)) {
         char* string = strdup(buffer);
-        string[MAX_INPUT + 1] = '\0'; // Failsafe in case the input line is over the maximum command length
+        if (strlen(string) > 512) {
+            // Failsafe in case the input line is over the maximum command length
+            string[MAX_INPUT] = '\n';
+            string[MAX_INPUT + 1] = '\0';
+        } 
         add(list, string);
     }
     fclose(file);
