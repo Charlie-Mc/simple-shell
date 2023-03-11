@@ -35,10 +35,10 @@ int main() {
     char** tokens = readAndParseInput(input, history);
 
     int hist;
-    bool prevCalled = false;
-
+    
     while (tokens != NULL) {
         if (tokens[0] != NULL) {
+            bool prevCalled;
             // hist => 0 means !! or !n
             hist = checkHist(prevCalled, &tokens, history);
             prevCalled = false;
