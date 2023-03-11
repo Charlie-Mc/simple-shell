@@ -10,6 +10,7 @@
 #include <unistd.h>
 
 #include "execute.h"
+#include "alias.c"
 
 void execute (char* argv[]) {
     pid_t pid;
@@ -74,7 +75,7 @@ int changeDirectory() {
 // Runs all the predefined functions
 // Add another else if you want to add a command
 
-int runPredefined(char *argv[]) {
+int runPredefined(char *argv[], List aliases) {
     char *command = argv[0];
     if (argv[0] == NULL)
         return 0;
@@ -109,9 +110,17 @@ int runPredefined(char *argv[]) {
         }
         // else change to the directory given in the parameter
         changeDirectoryParameter(argv);
+    } else if (strcmp(command, "alias") == 0){
+        if (argv[1] == NULL || argv[2] == NULL) {
+            printf("alias: Not enough parameters");
+            return 0;
+        } else {
+            alias(&argv[1], aliases);
+        }
     } else {
-        execute(argv);
+            execute(argv);
     }
+
     return 1;
 }
 

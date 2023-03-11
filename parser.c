@@ -14,68 +14,51 @@
 // Parameter is mutated. If subsequent access to original command line is required make sure to pass a copy to this function.
 // Returns NULL if execution of the shell is to end after this line, otherwise an array of strings representing the tokens of the line read.
 char** parse(char* input, List aliases) {
-    char* incpy = strdup(input);
-    char* in = strdup(input);
     // Create array of tokens
     char** tokens = malloc(MAX_TOKENS * sizeof(char*));
     // Index into array of tokens
+    char* token = strtok(input, DELIMITERS);
     int i = 0;
 
-    // Take first keyword off of input line, keywords are defined by words before the parsing characters (2nd input to fgets)
-    char* token = strtok(input, DELIMITERS);
-
-    // If token is NULL ignore parsing
     if (token != NULL) {
-        // if token is name of stored alias
-        bool is_alias = check_alias(token, aliases);
-        bool aliased = is_alias;
-        while (is_alias) {
-            // execute alias using current token as the name
-            tokens = parse_alias(token, incpy, tokens, aliases);
-            // command was exit
-            if (tokens == NULL)
-                return NULL;
-
-            token = strtok(strdup(tokens[0]), DELIMITERS);
-            if (token == NULL)
-                break;
-            is_alias = check_alias(token, aliases);
-        }
-        if (aliased)
-            return tokens;
-    }
-
-    token = strtok(in, DELIMITERS);
-
-    // If token is null value ignore parsing
-    while (token != NULL) {
-        if (DEBUG)
-            printf("%s\n", token);
-        tokens[i++] = token;
-
         // If the token is the exit command, terminate shell
         if (strcmp(token, "exit") == 0) {
             free(tokens);
             return NULL;
         }
-        if (strcmp(token, "alias") == 0) {
-            alias(tokens, aliases, incpy);
-            break;
+    }
+
+
+    // If token is null value ignore parsing
+    while (token != NULL) {
+        if (DEBUG)
+            printf("%s\n", token);
+
+        if (check_alias(token, aliases)) {
+            if (!parse_alias(&i, tokens, token, aliases))
+                return NULL;
+        } else {
+            tokens[i++] = token;
+        }
+
+        if (strcmp(tokens[0], "alias") == 0) {
+            alias(tokens, aliases, input);
+            goto leave;
         }
         if (strcmp(token, "unalias") == 0) {
             token = strtok(NULL, DELIMITERS);
             if (token == NULL) {
                 printf("unalias: no parameter given\n");
-                break;
+                goto leave;
             }
             unalias(token, aliases);
-            break;
+            goto leave;
         }
 
         // Otherwise get next keyword and repeat
         token = strtok(NULL, DELIMITERS);
     }
-    free(incpy);
+    leave:{}
     tokens[i] = NULL;
     return tokens;
 }

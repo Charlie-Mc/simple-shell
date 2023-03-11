@@ -48,7 +48,7 @@ int main() {
             // hist => 1 means non history external command
             else if (hist == 1) {
 
-                runPredefined(tokens);
+                runPredefined(tokens, aliases);
                 tokens = readAndParseInput(input, history, aliases);
             }
             // hist => 2 means history command not !! or !n
