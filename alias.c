@@ -20,8 +20,6 @@ void alias(char** tokens, List aliases, char* input) {
         return;
     }
 
-    int i = 0;
-
     char* name = malloc(sizeof(token) + 2);
     name = strdup(token);
     bool override = contains_alias(aliases, name);
@@ -103,4 +101,4 @@ bool check_alias(char* name, List aliases) {
     if (contains_alias(aliases, name))
         return true;
     return false;
-};
+}
