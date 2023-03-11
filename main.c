@@ -38,15 +38,13 @@ int main() {
     char** tokens = readAndParseInput(input, history, aliases);
 
     int hist;
-    bool prevCalled;
 
     while (tokens != NULL) {
         if (tokens[0] != NULL) {
             // hist => 0 means !! or !n
             hist = checkHist(&tokens, history, aliases);
-            prevCalled = false;
             if (hist == 0)
-                prevCalled = true;
+                continue;
             // hist => 1 means non history external command
             else if (hist == 1) {
 
