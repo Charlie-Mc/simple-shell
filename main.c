@@ -35,7 +35,7 @@ int main() {
     char** tokens = readAndParseInput(input, history);
 
     int hist;
-    bool prevCalled;
+    bool prevCalled = false;
 
     while (tokens != NULL) {
         if (tokens[0] != NULL) {
