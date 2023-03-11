@@ -29,10 +29,13 @@ int main() {
     List history = load_list(".hist_list");
     if (history == NULL)
         history = new_list();
+    List aliases = load_list(".alias_list");
+    if (aliases == NULL)
+        aliases = new_list();
     char input[MAX_INPUT + 2];
 
 
-    char** tokens = readAndParseInput(input, history);
+    char** tokens = readAndParseInput(input, history, aliases);
 
     int hist;
     bool prevCalled;
@@ -40,23 +43,24 @@ int main() {
     while (tokens != NULL) {
         if (tokens[0] != NULL) {
             // hist => 0 means !! or !n
-            hist = checkHist(prevCalled, &tokens, history);
+            hist = checkHist(prevCalled, &tokens, history, aliases);
             prevCalled = false;
             if (hist == 0)
                 prevCalled = true;
             // hist => 1 means non history external command
             else if (hist == 1) {
+
                 runPredefined(tokens);
-                tokens = readAndParseInput(input, history);
+                tokens = readAndParseInput(input, history, aliases);
             }
             // hist => 2 means history command not !! or !n
             else if (hist == 2) {
                 free(tokens);
-                tokens = readAndParseInput(input, history);
+                tokens = readAndParseInput(input, history, aliases);
             }
         } else {
             free(tokens);
-            tokens = readAndParseInput(input, history);
+            tokens = readAndParseInput(input, history, aliases);
         }
     }
 
@@ -65,6 +69,9 @@ int main() {
     save_list(history, ".hist_list");
     clear(history);
     free(history);
+    save_list(aliases, ".alias_list");
+    clear(aliases);
+    free(aliases);
 
     //debug mode as recommended by andrew, to remove this change DEBUG variable in parser.h to 0
     if (DEBUG) {

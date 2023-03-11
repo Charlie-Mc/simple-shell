@@ -15,6 +15,6 @@
 #define DEBUG 1
 #define DELIMITERS " \t\n|><&;"
 
-char** parse(char* input);
+char** parse(char* input, List aliases);
 int get_input(char* input, List history);
-char** readAndParseInput(char* input, List history);
+char** readAndParseInput(char* input, List history, List aliases);

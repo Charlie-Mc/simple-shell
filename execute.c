@@ -72,7 +72,7 @@ int changeDirectory() {
 }
 
 // Runs all the predefined functions
-// Add another else if if you want to add a command
+// Add another else if you want to add a command
 
 int runPredefined(char *argv[]) {
     char *command = argv[0];

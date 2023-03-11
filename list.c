@@ -239,9 +239,34 @@ int index_of(List list, char* value) {
     return indexFound;
 }
 
+int index_of_alias(List list, char* value) {
+
+    int indexFound = -1;
+    int currIndex = 0;
+    Node* node = *list;
+
+    while(node != NULL) {
+        if (strcmp(value, strtok(strdup(node->value), ",")) == 0) {
+            indexFound = currIndex;
+            break;
+        }
+        node = node->next;
+        currIndex++;
+    }
+    return indexFound;
+}
+
 int contains(List list, char* value) {
 
     if (index_of(list, value) == -1) {
+        return 0;
+    }
+    return 1;
+}
+
+int contains_alias(List list, char* value) {
+
+    if (index_of_alias(list, value) == -1) {
         return 0;
     }
     return 1;

@@ -11,7 +11,7 @@
 #include "parser.h"
 #include "history.h"
 
-int checkHist(bool prevCalled, char*** tokensPtr, List history) {
+int checkHist(bool prevCalled, char*** tokensPtr, List history, List aliases) {
     char** tokens = *tokensPtr;
     if (strcmp(tokens[0], "!!") == 0) {
         if (tokens[1] != NULL) {
@@ -27,7 +27,7 @@ int checkHist(bool prevCalled, char*** tokensPtr, List history) {
             return 2;
         }
         free(*tokensPtr);
-        *tokensPtr = parse(strdup(get_at(history, 0)));
+        *tokensPtr = parse(strdup(get_at(history, 0)), aliases);
         return 0;
     } else if (tokens[0][0] == '!' && tokens[0][1] != '\0') {
         if (tokens[1] != NULL) {
@@ -56,10 +56,10 @@ int checkHist(bool prevCalled, char*** tokensPtr, List history) {
         else {
             if (val < 0) {
                 free(*tokensPtr);
-                *tokensPtr = parse(strdup(get_at(history, abs(val)-1)));
+                *tokensPtr = parse(strdup(get_at(history, abs(val)-1)), aliases);
             } else if (val > 0) {
                 free(*tokensPtr);
-                *tokensPtr = parse(strdup(get_at(history, size(history) - val)));
+                *tokensPtr = parse(strdup(get_at(history, size(history) - val)), aliases);
             } else
                 return 2;
         }
