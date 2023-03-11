@@ -29,7 +29,7 @@ int main() {
     List history = load_list(".hist_list");
     if (history == NULL)
         history = new_list();
-    List aliases = load_list(".alias_list");
+    List aliases = load_list(".alias");
     if (aliases == NULL)
         aliases = new_list();
     char input[MAX_INPUT + 2];

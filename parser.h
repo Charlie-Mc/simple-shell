@@ -10,9 +10,10 @@
 #define MAX_TOKENS 50
 #define MAX_CWD 256
 #define HISTORY_SIZE 20
+#define MAX_ALIASES 10
 
 //debug mode as recommended by andrew, to remove this change DEBUG variable in parser.h to 0
-#define DEBUG 1
+#define DEBUG 0
 #define DELIMITERS " \t\n|><&;"
 
 char** parse(char* input, List aliases);

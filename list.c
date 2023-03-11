@@ -24,26 +24,22 @@ List new_list() {
     return list;
 }
 
-List load_list(char* fileName) {
-
-    FILE* file = fopen(fileName, "r");
-    List list = new_list();
-
-    if (file == 0) {
-        printf("History file not found\n");
+List load_list(char* filename){
+    FILE *plik = fopen(filename, "r");
+    if(plik == NULL || plik == 0){
+        printf("%s file not found\n", filename);
         return NULL;
     }
-    char buffer[MAX_INPUT + 2];
-    while (fgets(buffer, MAX_INPUT + 2, file)) {
-        char* string = strdup(buffer);
-        if (strlen(string) > 512) {
-            // Failsafe in case the input line is over the maximum command length
-            string[MAX_INPUT] = '\n';
-            string[MAX_INPUT + 1] = '\0';
-        } 
-        add(list, string);
+    List list = new_list();
+    int bufferSize = 150;
+    char buffer[bufferSize];
+    while(fgets(buffer,bufferSize,plik)){
+        char* string = malloc(strlen(buffer));
+        buffer[strlen(buffer)-1] = '\0';
+        strcpy(string, buffer);
+        push(list,string);
     }
-    fclose(file);
+    fclose(plik);
     return list;
 }
 
@@ -340,24 +336,23 @@ char* remove_at(List list, int index) {
     return value;
 }
 
-int save_list(List list, char* fileName) {
-
-    FILE* file = fopen(fileName, "w");
-    Node* node = *list;
-
-    if (file == 0) {
-        printf("History file not found\n");
+int save_list(List list, char* filename){
+    FILE *plik = fopen(filename, "w");
+    if(plik == NULL || plik == 0){
+        printf("%s file not found\n", filename);
         return -1;
     }
-    int numElements = 0;
-    while (node != NULL) {
-        fprintf(file, "%s", node->value);
+    int saved = 0;
+    Node* node = *list;
+    while(node != NULL){
+        fprintf(plik, "%s\n", node->value);
         node = node->next;
-        numElements++;
+        saved++;
     }
-    fclose(file);
-    return numElements;
+    fclose(plik);
+    return saved;
 }
+
 
 int is_empty(List list) {
 

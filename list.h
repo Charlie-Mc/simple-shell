@@ -8,7 +8,7 @@ typedef struct NODE {
 typedef Node** List;
 
 List new_list();
-List load_list(char* fileName);
+List load_list(char* filename);
 List copy_list(List list);
 List sublist(List list, int start, int end);
 
@@ -29,6 +29,6 @@ int contains(List list, char* value);
 int contains_alias(List list, char* value);
 int replace_at(List list, int index, char* value);
 int insert_at(List list,int index, char* value);
-int save_list(List list, char* fileName);
+int save_list(List list, char* filename);
 int is_empty(List list);
 int size(List list);

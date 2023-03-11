@@ -62,6 +62,15 @@ char** parse(char* input, List aliases) {
             alias(tokens, aliases, incpy);
             break;
         }
+        if (strcmp(token, "unalias") == 0) {
+            token = strtok(NULL, DELIMITERS);
+            if (token == NULL) {
+                printf("unalias: no parameter given\n");
+                break;
+            }
+            unalias(token, aliases);
+            break;
+        }
 
         // Otherwise get next keyword and repeat
         token = strtok(NULL, DELIMITERS);

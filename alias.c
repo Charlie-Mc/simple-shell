@@ -11,7 +11,8 @@
 #include "alias.h"
 
 void alias(char** tokens, List aliases, char* input) {
-    char* token = strtok(input, DELIMITERS);
+
+    char* token = strtok(strdup(input), DELIMITERS);
     token = strtok(NULL, DELIMITERS);
 
     if (token == NULL) {
@@ -23,7 +24,25 @@ void alias(char** tokens, List aliases, char* input) {
 
     char* name = malloc(sizeof(token) + 2);
     name = strdup(token);
+    bool override = contains_alias(aliases, name);
+    if (override) {
+        printf("alias <%s> already exists, overriding\n", name);
+        remove_at(aliases, index_of_alias(aliases,name));
+    }
+
+    if (size(aliases) >= MAX_ALIASES && !override) {
+        printf("max number of aliases reached: %d", MAX_ALIASES);
+        return;
+    }
+
+    strtok(input, DELIMITERS);
+    strtok(NULL, DELIMITERS);
     token = strtok(NULL, "\n");
+    if (token == NULL){
+        printf("alias: too few parameters\n");
+        return;
+    }
+
 
     char* alias = malloc(128 * sizeof(char));
     alias = strdup(name);
@@ -31,6 +50,13 @@ void alias(char** tokens, List aliases, char* input) {
     strcat(alias, strdup(token));
     strcat(alias, "\n");
     add(aliases, alias);
+}
+
+void unalias(char* name, List aliases) {
+    if (size(aliases) == 0)
+        printf("unaliase: no aliases defined\n");
+    else if (remove_at(aliases, index_of_alias(aliases, name)) == NULL)
+        printf("unalias: no alias <%s> found\n", name);
 }
 
 char** parse_alias(char* name, char* input, char** tokens, List aliases) {
