@@ -11,7 +11,7 @@
 #include "parser.h"
 #include "history.h"
 
-int checkHist(bool prevCalled, char*** tokensPtr, List history, List aliases) {
+int checkHist(char*** tokensPtr, List history, List aliases) {
     char** tokens = *tokensPtr;
     if (strcmp(tokens[0], "!!") == 0) {
         if (tokens[1] != NULL) {

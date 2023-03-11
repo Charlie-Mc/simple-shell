@@ -43,7 +43,7 @@ int main() {
     while (tokens != NULL) {
         if (tokens[0] != NULL) {
             // hist => 0 means !! or !n
-            hist = checkHist(prevCalled, &tokens, history, aliases);
+            hist = checkHist(&tokens, history, aliases);
             prevCalled = false;
             if (hist == 0)
                 prevCalled = true;
