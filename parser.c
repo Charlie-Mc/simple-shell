@@ -31,7 +31,7 @@ char** parse(char* input, List aliases) {
         bool aliased = is_alias;
         while (is_alias) {
             // execute alias using current token as the name
-            tokens = parse_alias(token, tokens, aliases);
+            tokens = parse_alias(token, incpy, tokens, aliases);
             // command was exit
             if (tokens == NULL)
                 return NULL;

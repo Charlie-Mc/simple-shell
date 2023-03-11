@@ -33,7 +33,7 @@ void alias(char** tokens, List aliases, char* input) {
     add(aliases, alias);
 }
 
-char** parse_alias(char* name, char** tokens, List aliases) {
+char** parse_alias(char* name, char* input, char** tokens, List aliases) {
     char* token = strtok(strdup(get_at(aliases, index_of_alias(aliases, name))), ",");
     int i = 0;
 
@@ -52,6 +52,19 @@ char** parse_alias(char* name, char** tokens, List aliases) {
 
         token = strtok(NULL, DELIMITERS);
     }
+
+    token = strtok(input, DELIMITERS);
+    token = strtok(NULL,  DELIMITERS);
+
+    while (token != NULL) {
+        if (DEBUG)
+            printf("token = %s\n", token);
+        tokens[i++] = token;
+
+        token = strtok(NULL, DELIMITERS);
+    }
+
+
     tokens[i] = NULL;
     return tokens;
 }
