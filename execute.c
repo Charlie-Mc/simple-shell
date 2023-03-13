@@ -109,6 +109,8 @@ int runPredefined(char *argv[]) {
         }
         // else change to the directory given in the parameter
         changeDirectoryParameter(argv);
+    } else if (strcmp(command, "alias") == 0) {
+        return 0;
     } else {
         execute(argv);
     }
