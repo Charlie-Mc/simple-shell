@@ -10,6 +10,17 @@
 #include "parser.h"
 #include "alias.h"
 
+bool loop(char* name, char* command, List aliases) {
+    char* com_b;
+    for (int i = 0; i < size(aliases); ++i) {
+        if (contains_alias_in_com(aliases, name)) {
+            if (strcmp(command, strtok(get_at(aliases, index_of_alias(aliases, command)), ",")) == 0)
+                return true;
+        }
+    }
+    return false;
+}
+
 void alias(char** tokens, List aliases, char* input) {
 
     strtok(strdup(input), DELIMITERS);
@@ -41,9 +52,13 @@ void alias(char** tokens, List aliases, char* input) {
         return;
     }
 
+    if (loop(name, token, aliases)) {
+
+    }
+
 
     char* alias = malloc(128 * sizeof(char));
-    alias = strcpy(name);
+    alias = strdup(name);
     strcat(alias, ",");
     strcat(alias, strdup(token));
     strcat(alias, "\n");
