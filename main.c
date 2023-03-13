@@ -29,7 +29,7 @@ int main() {
     List history = load_list(".hist_list");
     if (history == NULL)
         history = new_list();
-    List aliases = load_list(".aliases");
+    List aliases = load_list(".alias");
     if (aliases == NULL)
         aliases = new_list();
     char input[MAX_INPUT + 2];
@@ -67,7 +67,7 @@ int main() {
     save_list(history, ".hist_list");
     clear(history);
     free(history);
-    save_list(aliases, ".aliases");
+    save_list(aliases, ".alias_list");
     clear(aliases);
     free(aliases);
 
