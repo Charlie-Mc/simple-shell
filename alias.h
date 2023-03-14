@@ -3,6 +3,8 @@
 //
 
 
+#include <stdbool.h>
+
 #ifndef SIMPLE_SHELL_ALIAS_H
 #define SIMPLE_SHELL_ALIAS_H
 

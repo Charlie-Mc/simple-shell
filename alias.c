@@ -12,7 +12,6 @@
 
 void alias(char** args, List aliases) {
     char* name = args[0];
-    name = strdup(token);
     bool override = contains_alias(aliases, name);
     if (override) {
         printf("alias <%s> already exists, overriding\n", name);

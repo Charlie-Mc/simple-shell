@@ -34,17 +34,13 @@ char** parse(char* input, List aliases) {
         if (DEBUG)
             printf("%s\n", token);
 
-        if (check_alias(token, aliases)) {
-            if (!parse_alias(&i, tokens, token, aliases))
-                return NULL;
-        } else {
-            tokens[i++] = token;
-        }
-
-        if (strcmp(tokens[0], "alias") == 0) {
-            alias(tokens, aliases, input);
-            goto leave;
-        }
+//        if (check_alias(token, aliases)) {
+//            if (!parse_alias(&i, tokens, token, aliases))
+//                return NULL;
+//        } else {
+//
+//        }
+        tokens[i++] = token;
         if (strcmp(token, "unalias") == 0) {
             token = strtok(NULL, DELIMITERS);
             if (token == NULL) {

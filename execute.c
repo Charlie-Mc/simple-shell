@@ -9,8 +9,9 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include "list.h"
 #include "execute.h"
-#include "alias.c"
+#include "alias.h"
 
 void execute (char* argv[]) {
     pid_t pid;
