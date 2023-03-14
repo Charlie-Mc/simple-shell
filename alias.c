@@ -39,7 +39,7 @@ void alias(char** args, List aliases) {
 
 void unalias(char* name, List aliases) {
     if (size(aliases) == 0)
-        printf("unaliase: no aliases defined\n");
+        printf("unalias: no aliases defined\n");
     else if (remove_at(aliases, index_of_alias(aliases, name)) == NULL)
         printf("unalias: no alias <%s> found\n", name);
 }

@@ -27,6 +27,7 @@ int index_of(List list, char* value);
 int index_of_alias(List list, char* value);
 int contains(List list, char* value);
 int contains_alias(List list, char* value);
+int contains_alias_in_com(List list, char* value);
 int replace_at(List list, int index, char* value);
 int insert_at(List list,int index, char* value);
 int save_list(List list, char* filename);
