@@ -57,6 +57,7 @@ char** parse(char* input, List aliases) {
     }
     tokens[*i] = NULL;
     return tokens;
+    // commit
 }
 
 
