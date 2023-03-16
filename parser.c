@@ -18,7 +18,8 @@ char** parse(char* input, List aliases) {
     char** tokens = malloc(MAX_TOKENS * sizeof(char*));
     // Index into array of tokens
     char* token = strtok(input, DELIMITERS);
-    int i = 0;
+    int* i;
+    *i = 0;
 
     if (token != NULL) {
         // If the token is the exit command, terminate shell
@@ -34,28 +35,27 @@ char** parse(char* input, List aliases) {
         if (DEBUG)
             printf("%s\n", token);
 
-//        if (check_alias(token, aliases)) {
-//            if (!parse_alias(&i, tokens, token, aliases))
-//                return NULL;
-//        } else {
-//
-//        }
-        tokens[i++] = token;
+        if (check_alias(token, aliases)) {
+            if (!parse_alias(i, tokens, token, aliases))
+                return NULL;
+        } else {
+
+        }
+        tokens[(*i)++] = token;
         if (strcmp(token, "unalias") == 0) {
             token = strtok(NULL, DELIMITERS);
             if (token == NULL) {
                 printf("unalias: no parameter given\n");
-                goto leave;
+                break;
             }
             unalias(token, aliases);
-            goto leave;
+            break;
         }
 
         // Otherwise get next keyword and repeat
         token = strtok(NULL, DELIMITERS);
     }
-    leave:{}
-    tokens[i] = NULL;
+    tokens[*i] = NULL;
     return tokens;
 }
 
