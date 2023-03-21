@@ -10,6 +10,42 @@
 #include "parser.h"
 #include "alias.h"
 
+bool looping(char* name, List called, List aliases) {
+    List new = new_list();
+    for (int i = 0; i < size(called) - 1; ++i) {
+        char* alias = get_at(called, i);
+        strtok(strdup(alias), ",");
+        char* token = strtok(NULL, DELIMITERS);
+        char** tokens;
+        int temp;
+        while (token != NULL) {
+            tokens[temp++] = token;
+            if (contains_alias(aliases, token))
+                add(new, token);
+            if (contains_alias(new, name))
+                return true;
+            token = strtok(NULL, DELIMITERS);
+        }
+    }
+    return looping(name, new, aliases);
+}
+
+bool check_loop(char** alias_tokens, List aliases) {
+    int index = 2;
+    List called = new_list();
+
+    while (alias_tokens[index] != NULL) {
+        if (strcmp(alias_tokens[1], alias_tokens[index]) == 0) {
+            return true;
+        }
+        index++;
+        if (contains_alias(aliases, alias_tokens[index]))
+            add(called, alias_tokens[index]);
+    }
+
+    return looping(alias_tokens[1], called, aliases);
+}
+
 void alias(char** args, List aliases) {
     char* name = args[0];
     bool override = contains_alias(aliases, name);
@@ -20,6 +56,11 @@ void alias(char** args, List aliases) {
 
     if (size(aliases) >= MAX_ALIASES && !override) {
         printf("max number of aliases reached: %d", MAX_ALIASES);
+        return;
+    }
+
+    if (check_loop(args, aliases)) {
+        printf("<%s> alias cannot be made as this would cause a loop\n", name);
         return;
     }
 
@@ -65,7 +106,10 @@ bool parse_alias(int* i, char** tokens, char* name, List aliases) {
 }
 
 void print_aliases(List aliases) {
-    print_list(aliases);
+    printf("Printing Aliases...");
+    for (int i = 0; i < size(aliases) - 1; i++) {
+        printf("%s\n", get_at(aliases, i));
+    }
 }
 
 bool check_alias(char* name, List aliases) {
