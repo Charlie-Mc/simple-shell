@@ -20,8 +20,6 @@ void alias(char** tokens, List aliases, char* input) {
         return;
     }
 
-    int i = 0;
-
     char* name = malloc(sizeof(token) + 2);
     name = strdup(token);
     bool override = contains_alias(aliases, name);
@@ -70,13 +68,22 @@ char** parse_alias(char* name, char* input, char** tokens, List aliases) {
         return NULL;
     }
 
+    int aliasing;
     while (token != NULL) {
         if (DEBUG)
             printf("token = %s\n", token);
         tokens[i++] = token;
 
+        if (aliasing > 20) {
+            printf("<%s> alias causes infinite loop, terminating command ...\n", name);
+
+            char** r = malloc(sizeof(char*));
+            r[0] = NULL;
+            return r;
+        }
 
         token = strtok(NULL, DELIMITERS);
+        aliasing++;
     }
 
     token = strtok(input, DELIMITERS);
@@ -103,4 +110,4 @@ bool check_alias(char* name, List aliases) {
     if (contains_alias(aliases, name))
         return true;
     return false;
-};
+}

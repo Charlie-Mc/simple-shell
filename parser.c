@@ -23,6 +23,7 @@ char** parse(char* input, List aliases) {
 
     // Take first keyword off of input line, keywords are defined by words before the parsing characters (2nd input to fgets)
     char* token = strtok(input, DELIMITERS);
+    char* name = strdup(token);
 
     // If token is NULL ignore parsing
     if (token != NULL) {
@@ -35,6 +36,13 @@ char** parse(char* input, List aliases) {
             // command was exit
             if (tokens == NULL)
                 return NULL;
+            // command was infinite loop
+            if (tokens[0] == NULL){
+                char** r = malloc(sizeof(char*));
+                r[0] = NULL;
+                return r;
+            }
+
 
             token = strtok(strdup(tokens[0]), DELIMITERS);
             if (token == NULL)
