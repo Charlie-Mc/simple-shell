@@ -4,9 +4,11 @@
 #include <unistd.h>
 #include <stdbool.h>
 
+
 #include "parser.h"
 #include "history.h"
 #include "execute.h"
+
 
 //set path on start
 int cwdofsimp(char *cwd){
@@ -29,7 +31,7 @@ int main() {
     List history = load_list(".hist_list");
     if (history == NULL)
         history = new_list();
-    List aliases = load_list(".alias");
+    List aliases = load_list(".aliases");
     if (aliases == NULL)
         aliases = new_list();
     char input[MAX_INPUT + 2];
@@ -38,19 +40,17 @@ int main() {
     char** tokens = readAndParseInput(input, history, aliases);
 
     int hist;
-    bool prevCalled;
 
     while (tokens != NULL) {
         if (tokens[0] != NULL) {
             // hist => 0 means !! or !n
             hist = checkHist(&tokens, history, aliases);
-            prevCalled = false;
             if (hist == 0)
-                prevCalled = true;
+                continue;
             // hist => 1 means non history external command
             else if (hist == 1) {
 
-                runPredefined(tokens);
+                runPredefined(tokens, aliases);
                 tokens = readAndParseInput(input, history, aliases);
             }
             // hist => 2 means history command not !! or !n
@@ -69,7 +69,7 @@ int main() {
     save_list(history, ".hist_list");
     clear(history);
     free(history);
-    save_list(aliases, ".alias_list");
+    save_list(aliases, ".aliases");
     clear(aliases);
     free(aliases);
 

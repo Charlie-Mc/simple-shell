@@ -10,20 +10,8 @@
 #include "parser.h"
 #include "alias.h"
 
-void alias(char** tokens, List aliases, char* input) {
-
-    char* token = strtok(strdup(input), DELIMITERS);
-    token = strtok(NULL, DELIMITERS);
-
-    if (token == NULL) {
-        print_aliases(aliases);
-        return;
-    }
-
-    int i = 0;
-
-    char* name = malloc(sizeof(token) + 2);
-    name = strdup(token);
+void alias(char** args, List aliases) {
+    char* name = args[0];
     bool override = contains_alias(aliases, name);
     if (override) {
         printf("alias <%s> already exists, overriding\n", name);
@@ -35,64 +23,45 @@ void alias(char** tokens, List aliases, char* input) {
         return;
     }
 
-    strtok(input, DELIMITERS);
-    strtok(NULL, DELIMITERS);
-    token = strtok(NULL, "\n");
-    if (token == NULL){
-        printf("alias: too few parameters\n");
-        return;
+    char* command = malloc(MAX_INPUT * sizeof(char));
+    for (int i = 1; i < sizeof(args); ++i) {
+        strcat(command, strcat(args[i], " "));
     }
 
-
-    char* alias = malloc(128 * sizeof(char));
-    alias = strdup(name);
-    strcat(alias, ",");
-    strcat(alias, strdup(token));
-    strcat(alias, "\n");
-    add(aliases, alias);
+    char* alias = malloc(MAX_INPUT * sizeof(char) + sizeof(name));
+    strcat(alias, strcat(name, strcat(",", command)));
+    alias[strlen(alias)-1] = '\n';
+    add(aliases, strdup(alias));
+    free(alias);
+    free(command);
 }
 
 void unalias(char* name, List aliases) {
     if (size(aliases) == 0)
-        printf("unaliase: no aliases defined\n");
+        printf("unalias: no aliases defined\n");
     else if (remove_at(aliases, index_of_alias(aliases, name)) == NULL)
         printf("unalias: no alias <%s> found\n", name);
 }
 
-char** parse_alias(char* name, char* input, char** tokens, List aliases) {
-    char* token = strtok(strdup(get_at(aliases, index_of_alias(aliases, name))), ",");
-    int i = 0;
+bool parse_alias(int* i, char** tokens, char* name, List aliases) {
+    strtok(strdup(get_at(aliases, index_of_alias(aliases, name))), ",");
 
-    token = strtok(NULL, DELIMITERS);
+    char* token = strtok(NULL, DELIMITERS);
 
     if (strcmp(token, "exit") == 0) {
         free(tokens);
-        return NULL;
+        return false;
     }
 
     while (token != NULL) {
         if (DEBUG)
             printf("token = %s\n", token);
-        tokens[i++] = token;
+        tokens[(*i)++] = token;
 
 
         token = strtok(NULL, DELIMITERS);
     }
-
-    token = strtok(input, DELIMITERS);
-    token = strtok(NULL,  DELIMITERS);
-
-    while (token != NULL) {
-        if (DEBUG)
-            printf("token = %s\n", token);
-        tokens[i++] = token;
-
-        token = strtok(NULL, DELIMITERS);
-    }
-
-
-    tokens[i] = NULL;
-    return tokens;
+    return true;
 }
 
 void print_aliases(List aliases) {
@@ -103,4 +72,4 @@ bool check_alias(char* name, List aliases) {
     if (contains_alias(aliases, name))
         return true;
     return false;
-};
+}
