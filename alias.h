@@ -10,7 +10,7 @@
 
 void alias(char** args, List aliases);
 void unalias(char* name, List aliases);
-bool parse_alias(int* i, char** tokens, char* name, List aliases);
+char** parse_alias(char* name, char* input, char** tokens, List aliases);
 void print_aliases(List aliases);
 bool check_alias(char* name, List aliases);
 

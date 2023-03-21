@@ -84,25 +84,40 @@ void unalias(char* name, List aliases) {
         printf("unalias: no alias <%s> found\n", name);
 }
 
-bool parse_alias(int* i, char** tokens, char* name, List aliases) {
-    strtok(strdup(get_at(aliases, index_of_alias(aliases, name))), ",");
+char** parse_alias(char* name, char* input, char** tokens, List aliases) {
+    char* token = strtok(strdup(get_at(aliases, index_of_alias(aliases, name))), ",");
+    int i = 0;
 
-    char* token = strtok(NULL, DELIMITERS);
+    token = strtok(NULL, DELIMITERS);
 
     if (strcmp(token, "exit") == 0) {
         free(tokens);
-        return false;
+        return NULL;
     }
 
     while (token != NULL) {
         if (DEBUG)
             printf("token = %s\n", token);
-        tokens[(*i)++] = token;
+        tokens[i++] = token;
 
 
         token = strtok(NULL, DELIMITERS);
     }
-    return true;
+
+    token = strtok(input, DELIMITERS);
+    token = strtok(NULL,  DELIMITERS);
+
+    while (token != NULL) {
+        if (DEBUG)
+            printf("token = %s\n", token);
+        tokens[i++] = token;
+
+        token = strtok(NULL, DELIMITERS);
+    }
+
+
+    tokens[i] = NULL;
+    return tokens;
 }
 
 void print_aliases(List aliases) {
