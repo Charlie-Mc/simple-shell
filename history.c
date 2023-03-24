@@ -3,7 +3,6 @@
 //
 
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -11,7 +10,7 @@
 #include "parser.h"
 #include "history.h"
 
-int checkHist(bool prevCalled, char*** tokensPtr, List history) {
+int checkHist(char*** tokensPtr, List history) {
     char** tokens = *tokensPtr;
     if (strcmp(tokens[0], "!!") == 0) {
         if (tokens[1] != NULL) {
@@ -19,10 +18,6 @@ int checkHist(bool prevCalled, char*** tokensPtr, List history) {
             return 2;
         }
         if (peek(history) == NULL) {
-            printf("No command history found!\n");
-            return 2;
-        }
-        if (strcmp(peek(history), "") == 0) {
             printf("No command history found!\n");
             return 2;
         }
@@ -70,16 +65,15 @@ int checkHist(bool prevCalled, char*** tokensPtr, List history) {
         else if (size(history) == 1)
             printf("history: no history exists\n");
         else
-            printHistory(history, true);
+            printHistory(history);
         return 2;
     }
     return 1;
 }
 
-void printHistory(List history, bool prevCalled) {
+void printHistory(List history) {
     int j = 1;
-    for (int i = size(history); i > (prevCalled ? 0 : 1); --i) {
-        printf("%d:\t%s", j, get_at(history, i - 1));
-        j++;
+    for (int i = size(history); i > 0; --i) {
+        printf("%d:\t%s", j++, get_at(history, i - 1));
     }
 }

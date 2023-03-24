@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <stdbool.h>
 
 #include "parser.h"
 #include "history.h"
@@ -29,6 +28,9 @@ int main() {
     List history = load_list(".hist_list");
     if (history == NULL)
         history = new_list();
+    List aliases = load_list(".aliases");
+    if (aliases == NULL)
+        aliases = new_list();
     char input[MAX_INPUT + 2];
 
 
@@ -44,7 +46,7 @@ int main() {
                 continue;
             // hist => 1 means non history external command
             else if (hist == 1) {
-                runPredefined(tokens);
+                runPredefined(tokens, aliases);
                 tokens = readAndParseInput(input, history);
             }
             // hist => 2 means history command not !! or !n
@@ -67,15 +69,15 @@ int main() {
     //debug mode as recommended by andrew, to remove this change DEBUG variable in parser.h to 0
     if (DEBUG) {
         printf("Old Path:\n");
-        getPath();
+        getenv("PATH");
     }
 
     //reset path on completion
-    setSystemPath(path);
+    setenv("PATH", path, 1);
 
     if (DEBUG) {
         printf("Restored Path:\n");
-        getPath();
+        getenv("PATH");
     }
 
     return 0;

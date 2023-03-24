@@ -4,8 +4,8 @@
 
 void execute(char* argv[]);
 
-int runPredefined(char* argv[]);
+void runPredefined(char* argv[], List aliases);
 
-void getPath();
+void getPath(char* argv[]);
 
-void setSystemPath(char *path);
+void setSystemPath(char* argv[]);

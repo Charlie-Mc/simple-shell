@@ -63,8 +63,8 @@ int get_input(char* input, List history) {
         return 1;
     }
 
-    // If command is not a history invocation, add to history
-    if (input[0] != '\0' && input[0] != '!')
+    // If command is not a history invocation or empty, add to history
+    if (input[0] != '\n' && input[0] != '!')
         push(history, input);
 
     return 0;
