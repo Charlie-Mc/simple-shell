@@ -111,7 +111,7 @@ int runPredefined(char *argv[]) {
         changeDirectoryParameter(argv);
     } else if (strcmp(command, "alias") == 0) {
         return 0;
-    } else if (strcmp(command, "alias") == 0) {
+    } else if (strcmp(command, "unalias") == 0) {
         return 0;
     } else {
         execute(argv);
