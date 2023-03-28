@@ -74,10 +74,5 @@ int main() {
     //reset path on completion
     setSystemPath(path);
 
-    if (DEBUG) {
-        printf("Restored Path:\n");
-        getPath();
-    }
-
     return 0;
 }
