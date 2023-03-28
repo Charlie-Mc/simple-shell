@@ -20,8 +20,6 @@ void alias(char** tokens, List aliases, char* input) {
         return;
     }
 
-    int i = 0;
-
     char* name = malloc(sizeof(token) + 2);
     name = strdup(token);
     bool override = contains_alias(aliases, name);
@@ -31,7 +29,7 @@ void alias(char** tokens, List aliases, char* input) {
     }
 
     if (size(aliases) >= MAX_ALIASES && !override) {
-        printf("max number of aliases reached: %d", MAX_ALIASES);
+        printf("max number of aliases reached: %d\n", MAX_ALIASES);
         return;
     }
 
@@ -54,7 +52,7 @@ void alias(char** tokens, List aliases, char* input) {
 
 void unalias(char* name, List aliases) {
     if (size(aliases) == 0)
-        printf("unaliase: no aliases defined\n");
+        printf("unalias: no aliases defined\n");
     else if (remove_at(aliases, index_of_alias(aliases, name)) == NULL)
         printf("unalias: no alias <%s> found\n", name);
 }
@@ -71,20 +69,16 @@ char** parse_alias(char* name, char* input, char** tokens, List aliases) {
     }
 
     while (token != NULL) {
-        if (DEBUG)
-            printf("token = %s\n", token);
         tokens[i++] = token;
 
 
         token = strtok(NULL, DELIMITERS);
     }
 
-    token = strtok(input, DELIMITERS);
+    strtok(input, DELIMITERS);
     token = strtok(NULL,  DELIMITERS);
 
     while (token != NULL) {
-        if (DEBUG)
-            printf("token = %s\n", token);
         tokens[i++] = token;
 
         token = strtok(NULL, DELIMITERS);
@@ -103,4 +97,4 @@ bool check_alias(char* name, List aliases) {
     if (contains_alias(aliases, name))
         return true;
     return false;
-};
+}
