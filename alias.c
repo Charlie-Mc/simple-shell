@@ -57,7 +57,7 @@ void unalias(char* name, List aliases) {
         printf("unalias: no alias <%s> found\n", name);
 }
 
-char** parse_alias(char* name, char* input, char** tokens, List aliases) {
+char** parse_alias_helper(char* name, char** tokens, List aliases, List used) {
     char* token = strtok(strdup(get_at(aliases, index_of_alias(aliases, name))), ",");
     int i = 0;
 
@@ -68,10 +68,43 @@ char** parse_alias(char* name, char* input, char** tokens, List aliases) {
         return NULL;
     }
 
+    if (check_alias(token, aliases))
+        add(used, token);
+
+
     while (token != NULL) {
+        if (contains_alias(aliases, token))
+            parse_alias(token, input, tokens, used);
         tokens[i++] = token;
+        token = strtok(NULL, DELIMITERS);
+    }
+    tokens[i] = NULL;
+    return tokens;
+}
 
+char** parse_alias(char* name, char* input, char** tokens, List aliases, List used) {
+    char* token = strtok(strdup(get_at(aliases, index_of_alias(aliases, name))), ",");
+    int i = 0;
 
+    token = strtok(NULL, DELIMITERS);
+
+    if (strcmp(token, "exit") == 0) {
+        free(tokens);
+        return NULL;
+    }
+
+    if (check_alias(token, aliases))
+        add(used, token);
+
+    if (contains_alias(sublist(used, 1, size(used)), get_at(used,0))) {
+        printf("Looping, Exiting ... \n");
+        return tokens;
+    }
+
+    while (token != NULL) {
+        if (contains_alias(aliases, token))
+            parse_alias_helper(token, input, tokens, used);
+        tokens[i++] = token;
         token = strtok(NULL, DELIMITERS);
     }
 
@@ -80,7 +113,6 @@ char** parse_alias(char* name, char* input, char** tokens, List aliases) {
 
     while (token != NULL) {
         tokens[i++] = token;
-
         token = strtok(NULL, DELIMITERS);
     }
 

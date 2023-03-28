@@ -29,9 +29,11 @@ char** parse(char* input, List aliases) {
         // if token is name of stored alias
         bool is_alias = check_alias(token, aliases);
         bool aliased = is_alias;
+        List used_aliases = new_list();
+        add(used_aliases, token);
         while (is_alias) {
             // execute alias using current token as the name
-            tokens = parse_alias(token, incpy, tokens, aliases);
+            tokens = parse_alias(token, incpy, tokens, aliases, used_aliases);
             // command was exit
             if (tokens == NULL)
                 return NULL;
