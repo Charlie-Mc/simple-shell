@@ -3,12 +3,10 @@
 //
 
 
-#include <stdbool.h>
-
 #ifndef SIMPLE_SHELL_ALIAS_H
 #define SIMPLE_SHELL_ALIAS_H
 
-void alias(char** args, List aliases);
+void alias(char** tokens, List aliases, char* input);
 void unalias(char* name, List aliases);
 char** parse_alias(char* name, char* input, char** tokens, List aliases);
 void print_aliases(List aliases);

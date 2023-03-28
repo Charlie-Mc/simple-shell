@@ -268,14 +268,6 @@ int contains_alias(List list, char* value) {
     return 1;
 }
 
-int contains_alias_in_com(List list, char* value) {
-    for (int i = 0; i < size(list); ++i) {
-        if (strstr(value, get_at(list, i)) != NULL)
-            return 1;
-    }
-    return 0;
-}
-
 int replace_at(List list, int index, char* value) {
 
     int successful = 0;

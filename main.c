@@ -4,11 +4,9 @@
 #include <unistd.h>
 #include <stdbool.h>
 
-
 #include "parser.h"
 #include "history.h"
 #include "execute.h"
-
 
 //set path on start
 int cwdofsimp(char *cwd){
@@ -40,17 +38,19 @@ int main() {
     char** tokens = readAndParseInput(input, history, aliases);
 
     int hist;
+    bool prevCalled;
 
     while (tokens != NULL) {
         if (tokens[0] != NULL) {
             // hist => 0 means !! or !n
-            hist = checkHist(false, &tokens, history);
+            hist = checkHist(&tokens, history, aliases);
+            prevCalled = false;
             if (hist == 0)
-                continue;
+                prevCalled = true;
             // hist => 1 means non history external command
             else if (hist == 1) {
 
-                runPredefined(tokens, aliases);
+                runPredefined(tokens);
                 tokens = readAndParseInput(input, history, aliases);
             }
             // hist => 2 means history command not !! or !n

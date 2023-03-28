@@ -4,7 +4,7 @@
 
 void execute(char* argv[]);
 
-int runPredefined(char* argv[], List aliases);
+int runPredefined(char* argv[]);
 
 void getPath();
 
