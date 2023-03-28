@@ -9,7 +9,6 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#include "list.h"
 #include "execute.h"
 
 void execute (char* argv[]) {
@@ -75,7 +74,7 @@ int changeDirectory() {
 // Runs all the predefined functions
 // Add another else if you want to add a command
 
-int runPredefined(char *argv[], List aliases) {
+int runPredefined(char *argv[]) {
     char *command = argv[0];
     if (argv[0] == NULL)
         return 0;
