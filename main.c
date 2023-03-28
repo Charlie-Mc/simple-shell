@@ -42,7 +42,7 @@ int main() {
     while (tokens != NULL) {
         if (tokens[0] != NULL) {
             // hist => 0 means !! or !n
-            hist = checkHist(&tokens, history);
+            hist = checkHist(&tokens, history, aliases);
             if (hist == 0)
                 continue;
             // hist => 1 means non history external command
